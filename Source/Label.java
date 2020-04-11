@@ -16,4 +16,9 @@ public class Label extends JLabel {
   public Label(String text) {
     setProperties(text);
   }
+
+  public Label(String text, Color foreground) {
+    setProperties(text);
+    setForeground(foreground);
+  }
 }

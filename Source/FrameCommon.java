@@ -19,5 +19,4 @@ public class FrameCommon extends JFrame {
     setVisible(true);
     setSize(600, 600);
   }
-
 }
