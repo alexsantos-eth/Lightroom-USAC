@@ -103,9 +103,10 @@ public class Viewer extends FrameCommon {
 
     // ASIGNAR ESPACIO DE PANEL DE IMAGEN
     c.gridy = 2;
-   
+    c.gridheight = 7;
+    viewerPanel.add(imagePanel, c);
 
-// ASIGNAR ESPACIO DE PANEL DE BOTONES
+    // ASIGNAR ESPACIO DE PANEL DE BOTONES
     c.gridy = 9;
     c.gridheight = 1;
     viewerPanel.add(btnPanel, c);
