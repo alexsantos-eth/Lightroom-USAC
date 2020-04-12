@@ -1,29 +1,57 @@
 package Source;
 
 import java.awt.*;
+import java.awt.color.*;
 import javax.swing.*;
+import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
 
 public class Viewer extends FrameCommon {
   private static final long serialVersionUID = 1L;
+  String header = "<html><body><font face='Arial' color='white' size='5' align='center'>Categorias: </font><hr/>";
+  JEditorPane categoryPanel;
+
+  public void addCategoryPane(JEditorPane pane, String category) {
+    String catString = header + "<font face='Arial' color='white' size='7' align='center'>" + category + "</font><br/>";
+    header = catString;
+    pane.setText(header + "</body></html>");
+  }
+
+  public void saveCategory() {
+    String categoryStr = JOptionPane.showInputDialog(null, "Escribe el nombre de la categoria que deseas agregar");
+    addCategoryPane(categoryPanel, categoryStr);
+  }
 
   public Viewer() {
     // CONFIGURAR VENTANA
-    setLayout(new FlowLayout());
-    setSize(1000, 589);
-    setResizable(true);
+    setLayout(new GridBagLayout());
+    setSize(749, 585);
 
     // LOCALES
+    GridBagConstraints mainC = new GridBagConstraints();
     GridBagConstraints c = new GridBagConstraints();
     LayoutManager flow = new FlowLayout();
     GridLayout grid = new GridLayout(2, 1);
-    String src = "../Source/assets/test.jpg";
+    String src = "../Source/assets/imageBackground.jpg";
 
     // PROPIEDADES LOCALES
     grid.setVgap(5);
 
     // PANEL DE CATEGORIA
-    JPanel categoryPanel = new JPanel();
+    categoryPanel = new JEditorPane();
+    categoryPanel.setBackground(new Color(60, 60, 60));
+    categoryPanel.setFont(Theme.font);
+    categoryPanel.setAlignmentY(SwingConstants.CENTER);
+    categoryPanel.setEditable(false);
+    categoryPanel.setContentType("text/html");
+    categoryPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
+    categoryPanel.setPreferredSize(new Dimension(250, 556));
+
+    // PANEL DE SCROLL
+    JScrollPane scrollPane = new JScrollPane(categoryPanel);
+    scrollPane.setBorder(null);
+    scrollPane.setViewportBorder(null);
+    addCategoryPane(categoryPanel, "General");
 
     // PANEL DE VISOR
     JPanel viewerPanel = new JPanel();
@@ -72,17 +100,24 @@ public class Viewer extends FrameCommon {
     goNext.add(nextLabel);
 
     // COMPONENTES PRIMITIVOS
-    Image image = new Image(src, 400, 400);
+    Image image = new Image(src, 480, 400);
     Label fileName = new Label(src, Color.white);
     Button openImage = new Button("Abrir imagen", 238, 50);
     Button addCategory = new Button("Agregar categoria", 238, 5);
     Button deleteImage = new Button("Eliminar imagen", 238, 50, Theme.grayBlue);
     Button removeCategory = new Button("Eliminar categoria", 238, 50, Theme.grayBlue);
 
+    // EVENTOS
+    addCategory.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        saveCategory();
+      }
+    });
+
     // ASIGNAR PANEL DE IMAGEN
-    imagePanel.add(goPrevious);
+    // imagePanel.add(goPrevious);
     imagePanel.add(image);
-    imagePanel.add(goNext);
+    // imagePanel.add(goNext);
 
     // ASIGNAR PANEL DE RUTA
     fileNamePanel.add(fileName);
@@ -116,6 +151,13 @@ public class Viewer extends FrameCommon {
     viewerPanel.add(btnPanel, c);
 
     // AGREGAR PANEL PRINCIPAL
-    add(viewerPanel);
+    mainC.weightx = 5;
+    mainC.gridwidth = 1;
+    mainC.gridx = 0;
+    add(scrollPane, mainC);
+
+    mainC.gridx = 1;
+    mainC.gridwidth = 5;
+    add(viewerPanel, mainC);
   }
 }

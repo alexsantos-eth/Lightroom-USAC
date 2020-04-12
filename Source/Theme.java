@@ -22,5 +22,5 @@ public class Theme {
   public static Color deepOrange = new Color(255, 87, 34);
   public static Color brown = new Color(121, 85, 72);
   public static Color grayBlue = new Color(96, 125, 139);
-  public static Font font = new Font("Roboto", Font.PLAIN, 15);
+  public static Font font = new Font("Arial", Font.PLAIN, 15);
 }
