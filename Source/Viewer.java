@@ -11,6 +11,7 @@ public class Viewer extends FrameCommon {
     // CONFIGURAR VENTANA
     setLayout(new FlowLayout());
     setSize(1000, 589);
+    setResizable(true);
 
     // LOCALES
     GridBagConstraints c = new GridBagConstraints();
@@ -20,6 +21,9 @@ public class Viewer extends FrameCommon {
 
     // PROPIEDADES LOCALES
     grid.setVgap(5);
+
+    // PANEL DE CATEGORIA
+    JPanel categoryPanel = new JPanel();
 
     // PANEL DE VISOR
     JPanel viewerPanel = new JPanel();
