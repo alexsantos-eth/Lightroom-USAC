@@ -1,22 +1,24 @@
 package Source;
 
 import java.awt.*;
-import java.awt.color.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
 
 public class Viewer extends FrameCommon {
+  // VARIABLES GLOBALES
   private static final long serialVersionUID = 1L;
   String header = "<html><body><font face='Arial' color='white' size='5' align='center'>Categorias: </font><hr/>";
   JEditorPane categoryPanel;
 
+  // AGREGAR CATEGORIA A PANEL
   public void addCategoryPane(JEditorPane pane, String category) {
     String catString = header + "<font face='Arial' color='white' size='7' align='center'>" + category + "</font><br/>";
     header = catString;
     pane.setText(header + "</body></html>");
   }
 
+  // GUARDAR LISTA DE CATEGORIAS
   public void saveCategory() {
     String categoryStr = JOptionPane.showInputDialog(null, "Escribe el nombre de la categoria que deseas agregar");
     addCategoryPane(categoryPanel, categoryStr);
@@ -101,7 +103,7 @@ public class Viewer extends FrameCommon {
 
     // COMPONENTES PRIMITIVOS
     Image image = new Image(src, 480, 400);
-    Label fileName = new Label(src, Color.white);
+    Label fileName = new Label("Ruta en los archivos de las fotos", Color.white);
     Button openImage = new Button("Abrir imagen", 238, 50);
     Button addCategory = new Button("Agregar categoria", 238, 5);
     Button deleteImage = new Button("Eliminar imagen", 238, 50, Theme.grayBlue);
@@ -156,6 +158,7 @@ public class Viewer extends FrameCommon {
     mainC.gridx = 0;
     add(scrollPane, mainC);
 
+    // AGREGAR PANEL DE VISOR
     mainC.gridx = 1;
     mainC.gridwidth = 5;
     add(viewerPanel, mainC);
