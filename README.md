@@ -11,7 +11,7 @@
 ```
 
 ### ScreenShot
-<img src="./Source/assets/header.jpg" alt="Header"/>
+<img src="./Source/assets/header.JPG" alt="Header"/>
 
 ### LICENSE
 MIT
