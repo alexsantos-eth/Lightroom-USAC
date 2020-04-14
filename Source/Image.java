@@ -23,4 +23,9 @@ public class Image extends JPanel {
     setOpaque(false);
     super.paintComponent(g);
   }
+
+  public void updateSrc(String path) {
+    this.src = path;
+    repaint();
+  }
 }

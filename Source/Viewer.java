@@ -3,13 +3,21 @@ package Source;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
 import javax.swing.border.EmptyBorder;
 
 public class Viewer extends FrameCommon {
   // VARIABLES GLOBALES
   private static final long serialVersionUID = 1L;
+  List tempList;
   String header = "<html><body><font face='Arial' color='white' size='5' align='center'>Categorias: </font><hr/>";
   JEditorPane categoryPanel;
+  JPanel imagePanel;
+  Button[] navBtns;
+  Image image;
+  int sliderCount;
 
   // AGREGAR CATEGORIA A PANEL
   public void addCategoryPane(JEditorPane pane, String category) {
@@ -24,9 +32,85 @@ public class Viewer extends FrameCommon {
     addCategoryPane(categoryPanel, categoryStr);
   }
 
+  public void setControls(int mode) {
+    int tempWidth = 400;
+    imagePanel.removeAll();
+
+    if (mode == 0) {
+      imagePanel.add(navBtns[0]);
+      imagePanel.add(image);
+      imagePanel.add(navBtns[1]);
+    } else if (mode == 1) {
+      tempWidth = 440;
+      imagePanel.add(image);
+      imagePanel.add(navBtns[1]);
+    } else if (mode == 2) {
+      tempWidth = 440;
+      imagePanel.add(navBtns[0]);
+      imagePanel.add(image);
+    } else if (mode == 3) {
+      tempWidth = 480;
+      imagePanel.add(image);
+    }
+
+    image.setPreferredSize(new Dimension(tempWidth, 400));
+    image.revalidate();
+    image.repaint();
+    imagePanel.revalidate();
+    imagePanel.repaint();
+  }
+
+  // LEER ARCHIVOS
+  public void readFile() {
+    FileDialog dialog = new FileDialog((Frame) null, "Selecciona tu foto");
+    dialog.setMode(FileDialog.LOAD);
+    dialog.setMultipleMode(true);
+    dialog.setVisible(true);
+    File[] paths = dialog.getFiles();
+
+    for (int i = 0; i < paths.length; i++) {
+      tempList.add(paths[i].getAbsolutePath());
+    }
+
+    if (tempList.size() > 1)
+      setControls(0);
+
+    updateImage(tempList.get(sliderCount));
+  }
+
+  // ACTUALIZAR IMAGE
+  public void updateImage(String path) {
+    image.updateSrc(path);
+
+    if (tempList.size() > 1) {
+      if (sliderCount == 0)
+        setControls(1);
+      else if (sliderCount == tempList.size() - 1)
+        setControls(2);
+      else
+        setControls(0);
+    } else
+      setControls(3);
+  }
+
+  public void goNext() {
+    if (sliderCount < tempList.size() - 1) {
+      sliderCount++;
+      updateImage(tempList.get(sliderCount));
+    }
+  }
+
+  public void goBack() {
+    if (sliderCount > 0) {
+      sliderCount--;
+      updateImage(tempList.get(sliderCount));
+    }
+  }
+
   public Viewer() {
-    // CONFIGURAR VENTANA
+    // CONFIG
     setLayout(new GridBagLayout());
+    setFocusable(true);
     setSize(749, 585);
 
     // LOCALES
@@ -35,6 +119,12 @@ public class Viewer extends FrameCommon {
     LayoutManager flow = new FlowLayout();
     GridLayout grid = new GridLayout(2, 1);
     String src = "../Source/assets/imageBackground.jpg";
+
+    // INICIALES
+    image = new Image(src, 480, 400);
+    tempList = new List();
+    navBtns = new Button[2];
+    sliderCount = 0;
 
     // PROPIEDADES LOCALES
     grid.setVgap(5);
@@ -60,7 +150,7 @@ public class Viewer extends FrameCommon {
     viewerPanel.setLayout(new GridBagLayout());
 
     // PANEL DE IMAGEN Y NAVEGACION
-    JPanel imagePanel = new JPanel();
+    imagePanel = new JPanel();
     imagePanel.setLayout(flow);
 
     // PANEL DE RUTA
@@ -81,28 +171,50 @@ public class Viewer extends FrameCommon {
     JPanel categoryBtnPanel = new JPanel();
     categoryBtnPanel.setLayout(grid);
 
+    // ==== NAVEGACION ====
+    // KEY LISTENERS
+    KeyListener keyListener = new KeyListener() {
+      public void keyTyped(KeyEvent e) {
+
+      }
+
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+          goNext();
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT)
+          goBack();
+
+        System.out.println(e.getKeyCode());
+      }
+
+      public void keyReleased(KeyEvent e) {
+      }
+    };
+    addKeyListener(keyListener);
+
     // BOTON DE ATRAS
-    Button goPrevious = new Button("", new Color(240, 240, 240));
-    goPrevious.setLayout(new GridLayout(2, 1));
-    goPrevious.setPreferredSize(new Dimension(35, 200));
-    goPrevious.setBorder(new EmptyBorder(0, 0, 75, 0));
+    Button goPreviousBtn = new Button("", new Color(240, 240, 240));
+    goPreviousBtn.setLayout(new GridLayout(2, 1));
+    goPreviousBtn.setPreferredSize(new Dimension(35, 200));
+    goPreviousBtn.setBorder(new EmptyBorder(0, 0, 75, 0));
 
     // ICONO DE ATRAS
     JLabel prevLabel = new JLabel(new ImageIcon("../Source/assets/prev.png"));
-    goPrevious.add(prevLabel);
+    goPreviousBtn.add(prevLabel);
+    navBtns[0] = goPreviousBtn;
 
     // BOTON DE SIGUIENTE
-    Button goNext = new Button("", new Color(240, 240, 240));
-    goNext.setLayout(new GridLayout(2, 1));
-    goNext.setPreferredSize(new Dimension(35, 200));
-    goNext.setBorder(new EmptyBorder(0, 0, 75, 0));
+    Button goNextBtn = new Button("", new Color(240, 240, 240));
+    goNextBtn.setLayout(new GridLayout(2, 1));
+    goNextBtn.setPreferredSize(new Dimension(35, 200));
+    goNextBtn.setBorder(new EmptyBorder(0, 0, 75, 0));
 
     // ICONO DE SIGUIENTE
     JLabel nextLabel = new JLabel(new ImageIcon("../Source/assets/next.png"));
-    goNext.add(nextLabel);
+    goNextBtn.add(nextLabel);
+    navBtns[1] = goNextBtn;
 
     // COMPONENTES PRIMITIVOS
-    Image image = new Image(src, 480, 400);
     Label fileName = new Label("Ruta en los archivos de las fotos", Color.white);
     Button openImage = new Button("Abrir imagen", 238, 50);
     Button addCategory = new Button("Agregar categoria", 238, 5);
@@ -113,6 +225,34 @@ public class Viewer extends FrameCommon {
     addCategory.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         saveCategory();
+      }
+    });
+
+    openImage.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        readFile();
+      }
+    });
+
+    goPreviousBtn.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        goBack();
+      }
+    });
+
+    goNextBtn.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        goNext();
+      }
+    });
+
+    deleteImage.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        tempList.remove(sliderCount);
+        if (sliderCount != 0)
+          sliderCount--;
+
+        updateImage(tempList.size() == 0 ? src : tempList.get(sliderCount));
       }
     });
 
