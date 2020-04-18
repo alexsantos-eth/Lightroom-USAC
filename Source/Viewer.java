@@ -11,31 +11,39 @@ import javax.swing.border.EmptyBorder;
 public class Viewer extends FrameCommon {
   // VARIABLES GLOBALES
   private static final long serialVersionUID = 1L;
-  List tempList;
-  String header = "<html><body><font face='Arial' color='white' size='5' align='center'>Categorias: </font><hr/>";
-  JEditorPane categoryPanel;
-  JPanel imagePanel;
-  Button[] navBtns;
-  Image image;
-  int sliderCount;
+  private String header, defSrc, defInfo;
+  private JEditorPane categoryPanel;
+  private JPanel imagePanel;
+  private Button[] navBtns;
+  private int sliderCount;
+  private Label fileName;
+  private LinkedList<String> tempList;
+  private Image image;
 
   // AGREGAR CATEGORIA A PANEL
   public void addCategoryPane(JEditorPane pane, String category) {
+    // COMPONENTE HTML
     String catString = header + "<font face='Arial' color='white' size='7' align='center'>" + category + "</font><br/>";
+
+    // ACTUALIZAR TEXTO
     header = catString;
     pane.setText(header + "</body></html>");
   }
 
   // GUARDAR LISTA DE CATEGORIAS
   public void saveCategory() {
+    // MOSTRAR DIALOGO
     String categoryStr = JOptionPane.showInputDialog(null, "Escribe el nombre de la categoria que deseas agregar");
     addCategoryPane(categoryPanel, categoryStr);
   }
 
+  // ACTUALIZAR CONTROLES DE NAVEGACION
   public void setControls(int mode) {
+    // VARIABLES POR DEFECTO
     int tempWidth = 400;
     imagePanel.removeAll();
 
+    // CONDICIONES DE NAVEGACION
     if (mode == 0) {
       imagePanel.add(navBtns[0]);
       imagePanel.add(image);
@@ -53,7 +61,10 @@ public class Viewer extends FrameCommon {
       imagePanel.add(image);
     }
 
+    // ACTUALIZAR DIMENSION
     image.setPreferredSize(new Dimension(tempWidth, 400));
+
+    // RE RENDERIZAR
     image.revalidate();
     image.repaint();
     imagePanel.revalidate();
@@ -62,30 +73,40 @@ public class Viewer extends FrameCommon {
 
   // LEER ARCHIVOS
   public void readFile() {
+    // ABRIR DIALOGO
     FileDialog dialog = new FileDialog((Frame) null, "Selecciona tu foto");
+
+    // CONFIGURAR DIALOGO
     dialog.setMode(FileDialog.LOAD);
     dialog.setMultipleMode(true);
     dialog.setVisible(true);
+
+    // LISTA DE ARCHIVOS
     File[] paths = dialog.getFiles();
 
-    for (int i = 0; i < paths.length; i++) {
+    // ACTUALIZAR LISTA
+    for (int i = 0; i < paths.length; i++)
       tempList.add(paths[i].getAbsolutePath());
-    }
 
-    if (tempList.size() > 1)
+    // ACTUALIZAR CONTROLES
+    if (tempList.getSize() > 1)
       setControls(0);
 
+    // ACTUALIZAR IMAGEN
     updateImage(tempList.get(sliderCount));
   }
 
   // ACTUALIZAR IMAGE
   public void updateImage(String path) {
+    // ACTUALIZAR LABEL E IMAGEN
+    fileName.setText(path != defSrc ? path : defInfo);
     image.updateSrc(path);
 
-    if (tempList.size() > 1) {
+    // ACTUALIZAR CONTROLES
+    if (tempList.getSize() > 1) {
       if (sliderCount == 0)
         setControls(1);
-      else if (sliderCount == tempList.size() - 1)
+      else if (sliderCount == tempList.getSize() - 1)
         setControls(2);
       else
         setControls(0);
@@ -93,13 +114,15 @@ public class Viewer extends FrameCommon {
       setControls(3);
   }
 
+  // SIGUIENTE IMAGEN
   public void goNext() {
-    if (sliderCount < tempList.size() - 1) {
+    if (sliderCount < tempList.getSize() - 1) {
       sliderCount++;
       updateImage(tempList.get(sliderCount));
     }
   }
 
+  // IMAGEN ANTERIOR
   public void goBack() {
     if (sliderCount > 0) {
       sliderCount--;
@@ -118,11 +141,14 @@ public class Viewer extends FrameCommon {
     GridBagConstraints c = new GridBagConstraints();
     LayoutManager flow = new FlowLayout();
     GridLayout grid = new GridLayout(2, 1);
-    String src = "../Source/assets/imageBackground.jpg";
 
     // INICIALES
-    image = new Image(src, 480, 400);
-    tempList = new List();
+    header = "<html><body><font face='Arial' color='white' size='5' align='center'>Categorias: </font><hr/>";
+    defSrc = "../Source/assets/imageBackground.jpg";
+    defInfo = "Ruta en los archivos de las fotos";
+    fileName = new Label(defInfo, Color.white);
+    image = new Image(defSrc, 480, 400);
+    tempList = new LinkedList<String>();
     navBtns = new Button[2];
     sliderCount = 0;
 
@@ -183,8 +209,6 @@ public class Viewer extends FrameCommon {
           goNext();
         else if (e.getKeyCode() == KeyEvent.VK_LEFT)
           goBack();
-
-        System.out.println(e.getKeyCode());
       }
 
       public void keyReleased(KeyEvent e) {
@@ -215,7 +239,6 @@ public class Viewer extends FrameCommon {
     navBtns[1] = goNextBtn;
 
     // COMPONENTES PRIMITIVOS
-    Label fileName = new Label("Ruta en los archivos de las fotos", Color.white);
     Button openImage = new Button("Abrir imagen", 238, 50);
     Button addCategory = new Button("Agregar categoria", 238, 5);
     Button deleteImage = new Button("Eliminar imagen", 238, 50, Theme.grayBlue);
@@ -248,11 +271,11 @@ public class Viewer extends FrameCommon {
 
     deleteImage.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        tempList.remove(sliderCount);
+        tempList.delete(sliderCount);
         if (sliderCount != 0)
           sliderCount--;
 
-        updateImage(tempList.size() == 0 ? src : tempList.get(sliderCount));
+        updateImage(tempList.getSize() == 0 ? defSrc : tempList.get(sliderCount));
       }
     });
 
