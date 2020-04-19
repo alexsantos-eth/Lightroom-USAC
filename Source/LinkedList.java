@@ -24,13 +24,19 @@ public class LinkedList<T> extends EstructuraDeDatos {
 
   @SuppressWarnings("unchecked")
   @Override
-  public T find(Object item) {
+  public Node<T> find(Object item) {
     Node<T> auxNode = firstNode;
 
     while (auxNode.value != (T) item)
       auxNode = auxNode.next;
 
-    return auxNode.value;
+    return auxNode;
+  }
+
+  @SuppressWarnings("unchecked")
+  public void replace(Object item, Object newItem) {
+    Node<T> auxNode = find(item);
+    auxNode.value = (T) newItem;
   }
 
   @SuppressWarnings("unchecked")

@@ -17,12 +17,6 @@ class converterListener implements ActionListener {
   }
 }
 
-class loginListener implements ActionListener {
-  public void actionPerformed(ActionEvent actionEvent) {
-    new Viewer();
-  }
-}
-
 public class LoginMenu extends FrameCommon {
   private static final long serialVersionUID = 1L;
 
@@ -36,7 +30,6 @@ public class LoginMenu extends FrameCommon {
     GridBagConstraints c = new GridBagConstraints();
     ActionListener editorAction = new editorListener();
     ActionListener converterAction = new editorListener();
-    ActionListener loginAction = new loginListener();
 
     c.insets = new Insets(12, 0, 0, 0);
     int margin = 70;
@@ -92,7 +85,11 @@ public class LoginMenu extends FrameCommon {
     converterBtn.addActionListener(converterAction);
 
     Button login = new Button("INGRESAR", 300, 50);
-    login.addActionListener(loginAction);
+    login.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent actionEvent) {
+        new Viewer(userInput.getTextField().getText());
+      }
+    });
 
     // ASIGNAR PANEL DE BOTONES
     btnMenuPanel.add(converterBtn);

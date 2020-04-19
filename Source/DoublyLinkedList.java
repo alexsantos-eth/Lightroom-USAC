@@ -16,7 +16,7 @@ public class DoublyLinkedList<T> extends EstructuraDeDatos {
   @Override
   public void add(Object item) {
     if (firstNode == null) {
-      firstNode = new DoubleNode<>((T) item);
+      firstNode = new DoubleNode<T>((T) item);
       lastNode = firstNode;
       if (isCircular) {
         lastNode.next = firstNode;
@@ -40,7 +40,7 @@ public class DoublyLinkedList<T> extends EstructuraDeDatos {
   @SuppressWarnings("unchecked")
   public void addBack(Object item) {
     if (firstNode == null) {
-      firstNode = new DoubleNode<>((T) item);
+      firstNode = new DoubleNode<T>((T) item);
       lastNode = firstNode;
       if (isCircular) {
         lastNode.next = firstNode;

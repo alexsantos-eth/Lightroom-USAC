@@ -7,34 +7,65 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import javax.swing.border.EmptyBorder;
+import java.io.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 public class Viewer extends FrameCommon {
   // VARIABLES GLOBALES
   private static final long serialVersionUID = 1L;
-  private String header, defSrc, defInfo;
-  private JEditorPane categoryPanel;
+  private String defSrc, defInfo;
+  private JPanel categoryPanel;
   private JPanel imagePanel;
   private Button[] navBtns;
   private int sliderCount;
   private Label fileName;
-  private LinkedList<String> tempList;
+  private User tempList;
   private Image image;
+  private String currentCategory;
+  private Controller userController;
+  private Category currentCategoryList;
 
   // AGREGAR CATEGORIA A PANEL
-  public void addCategoryPane(JEditorPane pane, String category) {
-    // COMPONENTE HTML
-    String catString = header + "<font face='Arial' color='white' size='7' align='center'>" + category + "</font><br/>";
-
+  public void addCategoryPane(JPanel pane, String category) {
     // ACTUALIZAR TEXTO
-    header = catString;
-    pane.setText(header + "</body></html>");
+    Button nBtn = new Button(category, Theme.colorList[(int) (Math.random() * 17) + 1]);
+
+    nBtn.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        updateCategoryView(category);
+      }
+    });
+
+    nBtn.setPreferredSize(new Dimension(200, 50));
+    pane.add(nBtn);
+  }
+
+  public void updateCategoryView(String category) {
+    currentCategory = category;
+
+    String path = defSrc;
+    if (tempList.getCategory(currentCategory).images.getSize() > 0)
+      path = tempList.getCategory(currentCategory).images.get(0);
+
+    updateImage(path);
   }
 
   // GUARDAR LISTA DE CATEGORIAS
   public void saveCategory() {
     // MOSTRAR DIALOGO
     String categoryStr = JOptionPane.showInputDialog(null, "Escribe el nombre de la categoria que deseas agregar");
-    addCategoryPane(categoryPanel, categoryStr);
+    currentCategory = categoryStr;
+
+    tempList.addCategory(new Category(currentCategory));
+
+    updateWholeView(defSrc);
+  }
+
+  public void updateWholeView(String path) {
+    updateImage(path);
+    addCategoryPane(categoryPanel, currentCategory);
+
   }
 
   // ACTUALIZAR CONTROLES DE NAVEGACION
@@ -46,23 +77,23 @@ public class Viewer extends FrameCommon {
     // CONDICIONES DE NAVEGACION
     if (mode == 0) {
       imagePanel.add(navBtns[0]);
-      imagePanel.add(image);
+      imagePanel.add(image.getCPane());
       imagePanel.add(navBtns[1]);
     } else if (mode == 1) {
       tempWidth = 440;
-      imagePanel.add(image);
+      imagePanel.add(image.getCPane());
       imagePanel.add(navBtns[1]);
     } else if (mode == 2) {
       tempWidth = 440;
       imagePanel.add(navBtns[0]);
-      imagePanel.add(image);
+      imagePanel.add(image.getCPane());
     } else if (mode == 3) {
       tempWidth = 480;
-      imagePanel.add(image);
+      imagePanel.add(image.getCPane());
     }
 
     // ACTUALIZAR DIMENSION
-    image.setPreferredSize(new Dimension(tempWidth, 400));
+    image.getCPane().setPreferredSize(new Dimension(tempWidth, 400));
 
     // RE RENDERIZAR
     image.revalidate();
@@ -71,8 +102,34 @@ public class Viewer extends FrameCommon {
     imagePanel.repaint();
   }
 
+  public void removeCategory() {
+    tempList.removeCategory(tempList.getCategory(currentCategory));
+
+    currentCategory = tempList.getCategoryList().get(tempList.getCategoryList().getSize() - 1).name;
+    updateImage(tempList.getCategory(currentCategory).images.get(0));
+
+    categoryPanel.remove(categoryPanel.getComponent(categoryPanel.getComponentCount() - 1));
+    categoryPanel.repaint();
+  }
+
+  public void convertToBMP(String path) {
+    try {
+      File input = new File(path);
+      BufferedImage image = ImageIO.read(input);
+      String outputName = path + ".bmp";
+      File output = new File(outputName);
+      ImageIO.write(image, "bmp", output);
+    } catch (FileNotFoundException e) {
+      System.out.println("Error:" + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("Error:" + e.getMessage());
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
   // LEER ARCHIVOS
-  public void readFile() {
+  public void readFile(String catName) {
     // ABRIR DIALOGO
     FileDialog dialog = new FileDialog((Frame) null, "Selecciona tu foto");
 
@@ -84,16 +141,26 @@ public class Viewer extends FrameCommon {
     // LISTA DE ARCHIVOS
     File[] paths = dialog.getFiles();
 
-    // ACTUALIZAR LISTA
-    for (int i = 0; i < paths.length; i++)
-      tempList.add(paths[i].getAbsolutePath());
+    currentCategoryList = tempList.getCategory(currentCategory);
+    if (tempList.getCategoryList().getSize() == 0) {
+      addCategoryPane(categoryPanel, catName);
+      currentCategoryList = new Category(catName);
+      tempList.addCategory(currentCategoryList);
+      tempList.addCategory(currentCategoryList);
+    }
+
+    for (int i = 0; i < paths.length; i++) {
+      convertToBMP(paths[i].getAbsolutePath());
+      currentCategoryList.addImages(paths[i].getAbsolutePath());
+    }
 
     // ACTUALIZAR CONTROLES
-    if (tempList.getSize() > 1)
+    if (tempList.getCategory(currentCategory) != null && tempList.getCategory(currentCategory).images.getSize() > 1)
       setControls(0);
 
     // ACTUALIZAR IMAGEN
-    updateImage(tempList.get(sliderCount));
+    sliderCount = 0;
+    updateImage(tempList.getCategory(currentCategory).images.get(0));
   }
 
   // ACTUALIZAR IMAGE
@@ -103,22 +170,25 @@ public class Viewer extends FrameCommon {
     image.updateSrc(path);
 
     // ACTUALIZAR CONTROLES
-    if (tempList.getSize() > 1) {
+    if (tempList.getCategory(currentCategory).images.getSize() > 1) {
       if (sliderCount == 0)
         setControls(1);
-      else if (sliderCount == tempList.getSize() - 1)
+      else if (sliderCount == tempList.getCategory(currentCategory).images.getSize() - 1)
         setControls(2);
       else
         setControls(0);
     } else
       setControls(3);
+
+    if (path == defSrc)
+      setControls(3);
   }
 
   // SIGUIENTE IMAGEN
   public void goNext() {
-    if (sliderCount < tempList.getSize() - 1) {
+    if (sliderCount < tempList.getCategory(currentCategory).images.getSize() - 1) {
       sliderCount++;
-      updateImage(tempList.get(sliderCount));
+      updateImage(tempList.getCategory(currentCategory).images.get(sliderCount));
     }
   }
 
@@ -126,15 +196,49 @@ public class Viewer extends FrameCommon {
   public void goBack() {
     if (sliderCount > 0) {
       sliderCount--;
-      updateImage(tempList.get(sliderCount));
+      updateImage(tempList.getCategory(currentCategory).images.get(sliderCount));
     }
   }
 
-  public Viewer() {
+  public void openImage() {
+    if (tempList.getCategoryList().getSize() == 0) {
+      currentCategory = "General";
+      readFile("General");
+    } else
+      readFile(currentCategory);
+  }
+
+  public void deleteImage() {
+    tempList.getCategory(currentCategory).images.delete(sliderCount);
+    if (sliderCount != 0)
+      sliderCount--;
+
+    updateImage(tempList.getCategory(currentCategory).images.getSize() == 0 ? defSrc
+        : tempList.getCategory(currentCategory).images.get(sliderCount));
+  }
+
+  public void loadUserState() {
+    DoublyLinkedList<Category> catList = tempList.getCategoryList();
+    for (int i = 0; i < catList.getSize(); i++) {
+      String path = defSrc;
+      currentCategory = catList.get(i).name;
+
+      if (catList.get(i).images.getSize() > 0)
+        path = catList.get(i).images.get(0);
+
+      updateWholeView(path);
+    }
+  }
+
+  public Viewer(String userName) {
     // CONFIG
     setLayout(new GridBagLayout());
     setFocusable(true);
     setSize(749, 585);
+
+
+    // EVENTOS
+    
 
     // LOCALES
     GridBagConstraints mainC = new GridBagConstraints();
@@ -143,12 +247,12 @@ public class Viewer extends FrameCommon {
     GridLayout grid = new GridLayout(2, 1);
 
     // INICIALES
-    header = "<html><body><font face='Arial' color='white' size='5' align='center'>Categorias: </font><hr/>";
     defSrc = "../Source/assets/imageBackground.jpg";
     defInfo = "Ruta en los archivos de las fotos";
     fileName = new Label(defInfo, Color.white);
     image = new Image(defSrc, 480, 400);
-    tempList = new LinkedList<String>();
+    userController = new Controller(userName);
+    tempList = userController.getData();
     navBtns = new Button[2];
     sliderCount = 0;
 
@@ -156,12 +260,10 @@ public class Viewer extends FrameCommon {
     grid.setVgap(5);
 
     // PANEL DE CATEGORIA
-    categoryPanel = new JEditorPane();
+    categoryPanel = new JPanel();
     categoryPanel.setBackground(new Color(60, 60, 60));
     categoryPanel.setFont(Theme.font);
     categoryPanel.setAlignmentY(SwingConstants.CENTER);
-    categoryPanel.setEditable(false);
-    categoryPanel.setContentType("text/html");
     categoryPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
     categoryPanel.setPreferredSize(new Dimension(250, 556));
 
@@ -169,7 +271,6 @@ public class Viewer extends FrameCommon {
     JScrollPane scrollPane = new JScrollPane(categoryPanel);
     scrollPane.setBorder(null);
     scrollPane.setViewportBorder(null);
-    addCategoryPane(categoryPanel, "General");
 
     // PANEL DE VISOR
     JPanel viewerPanel = new JPanel();
@@ -238,6 +339,10 @@ public class Viewer extends FrameCommon {
     goNextBtn.add(nextLabel);
     navBtns[1] = goNextBtn;
 
+    // TITULO
+    Label nameTitle = new Label(userName.toUpperCase() + " WORKSPACE", Color.white);
+    nameTitle.setFont(Theme.font.deriveFont(18f).deriveFont(Font.BOLD));
+
     // COMPONENTES PRIMITIVOS
     Button openImage = new Button("Abrir imagen", 238, 50);
     Button addCategory = new Button("Agregar categoria", 238, 5);
@@ -251,9 +356,15 @@ public class Viewer extends FrameCommon {
       }
     });
 
+    removeCategory.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        removeCategory();
+      }
+    });
+
     openImage.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        readFile();
+        openImage();
       }
     });
 
@@ -271,17 +382,23 @@ public class Viewer extends FrameCommon {
 
     deleteImage.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        tempList.delete(sliderCount);
-        if (sliderCount != 0)
-          sliderCount--;
+        deleteImage();
+      }
+    });
 
-        updateImage(tempList.getSize() == 0 ? defSrc : tempList.get(sliderCount));
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent windowEvent) {
+        if (JOptionPane.showConfirmDialog(null, "Deseas guardar antes de salir?", "Cerrar Ventana",
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+          userController.saveUser(tempList);
+        }
       }
     });
 
     // ASIGNAR PANEL DE IMAGEN
     // imagePanel.add(goPrevious);
-    imagePanel.add(image);
+    imagePanel.add(image.getCPane());
     // imagePanel.add(goNext);
 
     // ASIGNAR PANEL DE RUTA
@@ -294,6 +411,7 @@ public class Viewer extends FrameCommon {
     // ASIGNAR FILA DE BOTONES
     categoryBtnPanel.add(deleteImage);
     categoryBtnPanel.add(removeCategory);
+    categoryPanel.add(nameTitle);
 
     // ASIGNAR PANEL DE BOTONES
     btnPanel.add(fileBtnPanel);
@@ -325,5 +443,7 @@ public class Viewer extends FrameCommon {
     mainC.gridx = 1;
     mainC.gridwidth = 5;
     add(viewerPanel, mainC);
+
+    loadUserState();
   }
 }

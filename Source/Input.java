@@ -8,13 +8,14 @@ import javax.swing.JTextField;
 
 public class Input extends JPanel {
   private static final long serialVersionUID = 1L;
+  JTextField inputField;
 
   private void setProperties(String label, String placeholder) {
     // PROPIEDADES
     setLayout(new GridLayout(2, 1));
 
     // COMPONENTES
-    JTextField inputField = new JTextField();
+    inputField = new JTextField();
     inputField.setForeground(new Color(100, 100, 100));
     inputField.setFont(Theme.font);
     inputField.setBorder(new RoundedBorder(10));
@@ -50,4 +51,7 @@ public class Input extends JPanel {
     setSize(width, height);
   }
 
+  public JTextField getTextField() {
+    return inputField;
+  }
 }

@@ -23,4 +23,7 @@ public class Theme {
   public static Color brown = new Color(121, 85, 72);
   public static Color grayBlue = new Color(96, 125, 139);
   public static Font font = new Font("Arial", Font.PLAIN, 15);
+  public static Color[] colorList = { red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green,
+      lightGreen, lime, yellow, amber, orange, deepOrange, brown, grayBlue };
+  public static Color randomColor = colorList[(int) (Math.random() * 17) + 1];
 }
