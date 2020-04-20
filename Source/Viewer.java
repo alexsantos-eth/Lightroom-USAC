@@ -25,6 +25,7 @@ public class Viewer extends FrameCommon {
   private String currentCategory;
   private Controller userController;
   private Category currentCategoryList;
+  private Boolean saveState;
 
   // AGREGAR CATEGORIA A PANEL
   public void addCategoryPane(JPanel pane, String category) {
@@ -165,7 +166,7 @@ public class Viewer extends FrameCommon {
 
   // ACTUALIZAR IMAGE
   public void updateImage(String path) {
-    // ACTUALIZAR LABEL E IMAGEN
+    // ACTUALIZAR
     fileName.setText(path != defSrc ? path : defInfo);
     image.updateSrc(path);
 
@@ -230,21 +231,67 @@ public class Viewer extends FrameCommon {
     }
   }
 
+  public void saveUser() {
+    saveState = true;
+    userController.saveUser(tempList);
+  }
+
   public Viewer(String userName) {
     // CONFIG
     setLayout(new GridBagLayout());
     setFocusable(true);
-    setSize(749, 585);
-
+    setSize(800, 600);
+    setResizable(true);
 
     // EVENTOS
-    
+    ActionListener addCategoryListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        saveCategory();
+      }
+    };
+
+    ActionListener removeCategoryListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        removeCategory();
+      }
+    };
+
+    ActionListener openImageListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        openImage();
+      }
+    };
+
+    ActionListener goPreviousBtnListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        goBack();
+      }
+    };
+
+    ActionListener goNextBtnListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        goNext();
+      }
+    };
+
+    ActionListener deleteImageListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        deleteImage();
+      }
+    };
+
+    ActionListener saveUserListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        saveUser();
+      }
+    };
 
     // LOCALES
     GridBagConstraints mainC = new GridBagConstraints();
     GridBagConstraints c = new GridBagConstraints();
     LayoutManager flow = new FlowLayout();
     GridLayout grid = new GridLayout(2, 1);
+    ViewerMenu menubar = new ViewerMenu();
 
     // INICIALES
     defSrc = "../Source/assets/imageBackground.jpg";
@@ -255,6 +302,7 @@ public class Viewer extends FrameCommon {
     tempList = userController.getData();
     navBtns = new Button[2];
     sliderCount = 0;
+    saveState = true;
 
     // PROPIEDADES LOCALES
     grid.setVgap(5);
@@ -350,48 +398,28 @@ public class Viewer extends FrameCommon {
     Button removeCategory = new Button("Eliminar categoria", 238, 50, Theme.grayBlue);
 
     // EVENTOS
-    addCategory.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        saveCategory();
-      }
-    });
+    menubar.newCategory.addActionListener(addCategoryListener);
+    addCategory.addActionListener(addCategoryListener);
 
-    removeCategory.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        removeCategory();
-      }
-    });
+    menubar.removeCategory.addActionListener(removeCategoryListener);
+    removeCategory.addActionListener(removeCategoryListener);
 
-    openImage.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        openImage();
-      }
-    });
+    menubar.openFile.addActionListener(openImageListener);
+    openImage.addActionListener(openImageListener);
 
-    goPreviousBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        goBack();
-      }
-    });
+    menubar.closeFile.addActionListener(deleteImageListener);
+    deleteImage.addActionListener(deleteImageListener);
 
-    goNextBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        goNext();
-      }
-    });
-
-    deleteImage.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        deleteImage();
-      }
-    });
+    menubar.saveWorkspace.addActionListener(saveUserListener);
+    goPreviousBtn.addActionListener(goPreviousBtnListener);
+    goNextBtn.addActionListener(goNextBtnListener);
 
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent windowEvent) {
-        if (JOptionPane.showConfirmDialog(null, "Deseas guardar antes de salir?", "Cerrar Ventana",
+        if (saveState == false & JOptionPane.showConfirmDialog(null, "Deseas guardar antes de salir?", "Cerrar Ventana",
             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-          userController.saveUser(tempList);
+          saveUser();
         }
       }
     });
@@ -444,6 +472,7 @@ public class Viewer extends FrameCommon {
     mainC.gridwidth = 5;
     add(viewerPanel, mainC);
 
+    setJMenuBar(menubar);
     loadUserState();
   }
 }
