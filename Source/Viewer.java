@@ -79,6 +79,9 @@ public class Viewer extends FrameCommon {
 
   // ACTUALIZAR IMAGEN Y PANEL DE CATEGORIAS
   public void updateWholeView(String path) {
+    // ACTUALIZAR CAMBIOS
+    saveState = false;
+
     updateImage(path);
     addCategoryPane(categoryPanel, currentCategory);
   }
@@ -119,6 +122,9 @@ public class Viewer extends FrameCommon {
 
   // QUITAR CATEGORIA
   public void removeCategory() {
+    // ACTUALIZAR CAMBIOS
+    saveState = false;
+
     // VERIFICAR SI NO ESTA VACIA
     if (tempList.getCategoryList().getSize() > 0) {
 
@@ -249,6 +255,9 @@ public class Viewer extends FrameCommon {
 
   // ABRIR IMAGEN
   public void openImage() {
+    // ACTUALIZAR CAMBIOS
+    saveState = false;
+
     // CREAR NUEVA CATEGORIA GENERAL
     if (tempList.getCategoryList().getSize() == 0) {
       currentCategory = "General";
@@ -262,6 +271,9 @@ public class Viewer extends FrameCommon {
 
   // BORRAR IMAGEN
   public void deleteImage() {
+    // ACTUALIZAR CAMBIOS
+    saveState = false;
+
     // VERIFICAR SI HAY IMAGENES
     if (tempList.getCategory(currentCategory) != null && tempList.getCategory(currentCategory).images != null
         && tempList.getCategory(currentCategory).images.getSize() > 0) {
