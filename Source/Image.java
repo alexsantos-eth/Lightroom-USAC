@@ -2,7 +2,6 @@ package Source;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.color.*;
 import java.io.*;
 
 public class Image extends JEditorPane {
@@ -16,7 +15,6 @@ public class Image extends JEditorPane {
     this.width = width;
     this.height = height;
 
-    setBackground(Color.white);
     setEditable(false);
 
     scrollPane = new JScrollPane(this);
@@ -48,7 +46,7 @@ public class Image extends JEditorPane {
   }
 
   private int toInt(byte[] a, int offs) {
-    return (a[offs + 3] & 0xff) << 24 | (a[offs + 2] & 0xff) << 16 | (a[offs + 1] & 0xff) << 8 | a[offs] & 0xff;
+    return (a[offs + 3] & 0xFF) << 24 | (a[offs + 2] & 0xFF) << 16 | (a[offs + 1] & 0xFF) << 8 | a[offs] & 0xFF;
   }
 
   public void paint(Graphics g) {
@@ -63,10 +61,23 @@ public class Image extends JEditorPane {
 
       int x = width, y = 0;
       for (int i = byteArry.length - 4; i > 54; i -= 3) {
-        int A = byteArry[i] & 0xFF;
-        int B = byteArry[i + 1] & 0xFF;
-        int G = byteArry[i + 2] & 0xFF;
-        int R = byteArry[i + 3] & 0xFF;
+        int B = (byteArry[i + 1] & 0xFF);
+        int G = (byteArry[i + 2] & 0xFF);
+        int R = (byteArry[i + 3] & 0xFF);
+
+        // LIMITAR VALORES PARA LOS FILTROS EN PROXIMA FASE
+        if (B > 255)
+          B = 255;
+        if (G > 255)
+          G = 255;
+        if (R > 255)
+          R = 255;
+        if (B < 0)
+          B = 0;
+        if (G < 0)
+          G = 0;
+        if (R < 0)
+          R = 0;
 
         g.setColor(new Color(R, G, B));
         g.drawLine(x, y, x, y);

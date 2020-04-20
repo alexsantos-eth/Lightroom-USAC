@@ -7,9 +7,12 @@
     "byte",
     "categoria",
     "categorias",
+    "direccion",
+    "imagenes",
     "lightroom",
     "nav",
     "navegacion",
+    "posicion",
     "renderizar"
   ]
 }
