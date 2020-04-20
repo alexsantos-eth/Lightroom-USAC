@@ -119,17 +119,29 @@ public class Viewer extends FrameCommon {
 
   // QUITAR CATEGORIA
   public void removeCategory() {
-    // QUITAR DEL USUARIO
-    int removeCategoryIndex = tempList.getCategoryIndex(currentCategory);
-    tempList.removeCategory(tempList.getCategory(currentCategory));
+    // VERIFICAR SI NO ESTA VACIA
+    if (tempList.getCategoryList().getSize() > 0) {
 
-    // ASIGNAR ULTIMA CATEGORIA Y ACTUALIZAR IMAGEN
-    currentCategory = tempList.getLastCategory().name;
-    updateImage(tempList.getCategory(currentCategory).images.get(0));
+      // QUITAR DEL USUARIO
+      int removeCategoryIndex = tempList.getCategoryIndex(currentCategory);
+      tempList.removeCategory(tempList.getCategory(currentCategory));
 
-    // QUITAR DEL PANEL DE CATEGORIAS
-    categoryPanel.remove(categoryPanel.getComponent(1 + removeCategoryIndex));
-    categoryPanel.repaint();
+      // OBTENER NUEVA LONGITUD
+      Boolean filledList = tempList.getCategoryList().getSize() > 0;
+
+      // ASIGNAR ULTIMA CATEGORIA Y ACTUALIZAR IMAGEN
+      if (filledList)
+        currentCategory = tempList.getLastCategory().name;
+      else
+        currentCategory = "";
+
+      // ACTUALIZAR LISTA
+      updateImage(filledList ? tempList.getCategory(currentCategory).images.get(0) : defSrc);
+
+      // QUITAR DEL PANEL DE CATEGORIAS
+      categoryPanel.remove(categoryPanel.getComponent(1 + removeCategoryIndex));
+      categoryPanel.repaint();
+    }
   }
 
   // CONVERTIR IMAGEN A BMP
@@ -199,15 +211,17 @@ public class Viewer extends FrameCommon {
     image.updateSrc(path);
 
     // ACTUALIZAR CONTROLES
-    if (tempList.getCategory(currentCategory).images.getSize() > 1) {
-      if (sliderCount == 0)
-        setControls(1);
-      else if (sliderCount == tempList.getCategory(currentCategory).images.getSize() - 1)
-        setControls(2);
-      else
-        setControls(0);
-    } else
-      setControls(3);
+    if (currentCategory.length() > 0) {
+      if (tempList.getCategory(currentCategory).images.getSize() > 1) {
+        if (sliderCount == 0)
+          setControls(1);
+        else if (sliderCount == tempList.getCategory(currentCategory).images.getSize() - 1)
+          setControls(2);
+        else
+          setControls(0);
+      } else
+        setControls(3);
+    }
 
     // VALOR POR DEFECTO
     if (path == defSrc)
@@ -247,16 +261,20 @@ public class Viewer extends FrameCommon {
 
   // BORRAR IMAGEN
   public void deleteImage() {
-    // QUITAR DEL USUARIO
-    tempList.getCategory(currentCategory).deleteImage(tempList.getCategory(currentCategory).images.get(sliderCount));
+    // VERIFICAR SI HAY IMAGENES
+    if (tempList.getCategory(currentCategory) != null && tempList.getCategory(currentCategory).images != null
+        && tempList.getCategory(currentCategory).images.getSize() > 0) {
+      // QUITAR DEL USUARIO
+      tempList.getCategory(currentCategory).deleteImage(tempList.getCategory(currentCategory).images.get(sliderCount));
 
-    // REDUCIR POSICION
-    if (sliderCount > 0)
-      sliderCount--;
+      // REDUCIR POSICION
+      if (sliderCount > 0)
+        sliderCount--;
 
-    // ACTUALIZAR IMAGEN
-    updateImage(tempList.getCategory(currentCategory).images.getSize() == 0 ? defSrc
-        : tempList.getCategory(currentCategory).images.get(sliderCount));
+      // ACTUALIZAR IMAGEN
+      updateImage(tempList.getCategory(currentCategory).images.getSize() == 0 ? defSrc
+          : tempList.getCategory(currentCategory).images.get(sliderCount));
+    }
   }
 
   // CARGAR DATOS GUARDADOS
