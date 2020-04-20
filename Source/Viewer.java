@@ -69,7 +69,10 @@ public class Viewer extends FrameCommon {
       // AGREGAR CATEGORIA AL USUARIO Y ACTUALIZAR
       tempList.addCategory(new Category(currentCategory));
       updateWholeView(defSrc);
-    } else
+    }
+
+    // MOSTRAR PANEL DE ERROR SI NO SE PUEDE AGREGAR
+    else
       JOptionPane.showMessageDialog(null, "Ocurrio un error al intentar agregar una categoria, intenta de nuevo",
           "Error al agregar", JOptionPane.ERROR_MESSAGE);
   }
