@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class ViewerMenu extends JMenuBar {
+  // PROPIEDADES
   private static final long serialVersionUID = 1L;
   private JMenu fileMenu, categoryMenu, workSpaceMenu;
   public JMenuItem openFile, closeFile, newCategory, removeCategory, saveWorkspace;
 
   public ViewerMenu() {
+    // MENUS PRINCIPALES
     fileMenu = new JMenu("Archivo");
     categoryMenu = new JMenu("Categorias");
     workSpaceMenu = new JMenu("Biblioteca");
@@ -43,14 +45,18 @@ public class ViewerMenu extends JMenuBar {
     saveWorkspace.setToolTipText("Guardar biblioteca");
     saveWorkspace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
 
+    // AGREGAR A MENU DE ARCHIVO
     fileMenu.add(openFile);
     fileMenu.add(closeFile);
 
+    // AGREGAR A MENU DE CATEGORIA
     categoryMenu.add(newCategory);
     categoryMenu.add(removeCategory);
 
+    // AGREGAR A MENU DE BIBLIOTECA
     workSpaceMenu.add(saveWorkspace);
 
+    // AGREGAR A MENUBAR
     add(workSpaceMenu);
     add(fileMenu);
     add(categoryMenu);

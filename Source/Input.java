@@ -29,11 +29,19 @@ public class Input extends JPanel {
       }
     });
 
+    // LABEL
     JLabel inputLabel = new JLabel(label);
     inputLabel.setForeground(new Color(100, 100, 100));
     inputLabel.setFont(Theme.font.deriveFont(Font.BOLD));
+
+    // AGREGAR TEXT FIELD Y LABEL
     add(inputLabel);
     add(inputField);
+  }
+
+  // OBTENER TEXT FIELD
+  public JTextField getTextField() {
+    return inputField;
   }
 
   public Input(String label, String placeholder, int width, int height) {
@@ -51,7 +59,4 @@ public class Input extends JPanel {
     setSize(width, height);
   }
 
-  public JTextField getTextField() {
-    return inputField;
-  }
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class Theme {
+  // COLORES
   public static Color red = new Color(244, 67, 54);
   public static Color pink = new Color(233, 30, 99);
   public static Color purple = new Color(156, 39, 176);
@@ -23,7 +24,11 @@ public class Theme {
   public static Color brown = new Color(121, 85, 72);
   public static Color grayBlue = new Color(96, 125, 139);
   public static Font font = new Font("Arial", Font.PLAIN, 15);
+
+  // COLORES EN LISTA
   public static Color[] colorList = { red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green,
       lightGreen, lime, yellow, amber, orange, deepOrange, brown, grayBlue };
+
+  // COLOR ALEATORIO
   public static Color randomColor = colorList[(int) (Math.random() * 17) + 1];
 }

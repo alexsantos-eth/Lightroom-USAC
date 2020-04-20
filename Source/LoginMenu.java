@@ -5,12 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+// EVENTO DE ABRIR EDITOR
 class editorListener implements ActionListener {
   public void actionPerformed(ActionEvent actionEvent) {
     System.out.println("Selected: " + actionEvent.getActionCommand());
   }
 }
 
+// ABRIR CONVERTIDOR
 class converterListener implements ActionListener {
   public void actionPerformed(ActionEvent actionEvent) {
     System.out.println("Selected: " + actionEvent.getActionCommand());
@@ -31,6 +33,7 @@ public class LoginMenu extends FrameCommon {
     ActionListener editorAction = new editorListener();
     ActionListener converterAction = new editorListener();
 
+    // POSICION
     c.insets = new Insets(12, 0, 0, 0);
     int margin = 70;
 
@@ -38,12 +41,14 @@ public class LoginMenu extends FrameCommon {
     JMenuBar menuBar = new JMenuBar();
     JMenu toolsMenu = new JMenu("Herramientas");
 
+    // MENU DE EDITOR
     JMenuItem editorMenu = new JMenuItem("Editor", new ImageIcon("../Source/assets/editor-icon.png"));
     editorMenu.setMnemonic(KeyEvent.VK_E);
     editorMenu.setToolTipText("Ingresar al editor");
     editorMenu.addActionListener(editorAction);
     editorMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
 
+    // MENU DE CONVERTIDOR
     JMenuItem converterMenu = new JMenuItem("Convertidor", new ImageIcon("../Source/assets/converter-icon.png"));
     converterMenu.setMnemonic(KeyEvent.VK_T);
     converterMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK));
@@ -78,12 +83,16 @@ public class LoginMenu extends FrameCommon {
     // COMPONENTES PRIMITIVOS
     Input userInput = new Input("BIBLIOTECA (USAC VIEWER)", "Nombre de usuario", 300, 20);
     Label title = new Label("MENU PRINCIPAL");
+
+    // BOTON DE EDITOR
     Button editorBtn = new Button("EDITOR", 220, 50, Theme.grayBlue);
     editorBtn.addActionListener(editorAction);
 
+    // BOTON DE CONVERTIDOR
     Button converterBtn = new Button("CONVERTIDOR", 220 - (margin / 2), 50, Theme.grayBlue);
     converterBtn.addActionListener(converterAction);
 
+    // BOTON DE INGRESAR
     Button login = new Button("INGRESAR", 300, 50);
     login.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent actionEvent) {

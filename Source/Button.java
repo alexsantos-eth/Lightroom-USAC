@@ -31,22 +31,26 @@ class Button extends JButton {
     add(btnText);
   }
 
+  // CONSTRUCTORES
   public Button(String text) {
     setProperties(text);
     setBackground(Theme.blue);
   }
 
+  // CONSTRUCTORES
   public Button(String text, Color background) {
     setProperties(text);
     setBackground(background);
   }
 
+  // CONSTRUCTORES
   public Button(String text, int width, int height) {
     setProperties(text);
     setBackground(Theme.blue);
     setPreferredSize(new Dimension(width, height));
   }
 
+  // CONSTRUCTORES
   public Button(String text, int width, int height, Color background) {
     setProperties(text);
     setBackground(background);

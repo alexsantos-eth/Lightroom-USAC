@@ -114,7 +114,7 @@ public class Viewer extends FrameCommon {
     tempList.removeCategory(tempList.getCategory(currentCategory));
 
     // ASIGNAR ULTIMA CATEGORIA Y ACTUALIZAR IMAGEN
-    currentCategory = tempList.getCategoryList().get(tempList.getCategoryList().getSize() - 1).name;
+    currentCategory = tempList.getLastCategory().name;
     updateImage(tempList.getCategory(currentCategory).images.get(0));
 
     // QUITAR DEL PANEL DE CATEGORIAS
