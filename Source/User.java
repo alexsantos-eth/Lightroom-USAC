@@ -42,9 +42,45 @@ public class User {
     // RECORRER LISTA
     for (int i = 0; i < getCategoryList().getSize(); i++) {
       // ENCONTRAR POR NOMBRE Y ASIGNAR
-      if (getCategoryList().get(i).name == catName)
+      if (catName.equals(getCategoryList().get(i).name))
         out = getCategoryList().get(i);
     }
+    return out;
+  }
+
+  // OBTENER POSICION DE LA CATEGORIA
+  public int getCategoryIndex(String catName) {
+    // VALOR POR DEFECTO
+    int out = 0;
+
+    for (int i = 0; i < getCategoryList().getSize(); i++)
+      // ENCONTRAR POR NOMBRE Y ASIGNAR
+      if (catName.equals(getCategoryList().get(i).name))
+        out = i;
+
+    // RETORNAR INDICE
+    return out;
+  }
+
+  // VERIFICAR SI SE PUEDE AGREGAR CATEGORIA
+  public Boolean verifyCategory(String catName) {
+    // VALOR POR DEFECTO
+    Boolean out = true;
+
+    // RECORRER LISTA
+    for (int i = 0; i < getCategoryList().getSize(); i++)
+      // ENCONTRAR POR NOMBRE Y ASIGNAR
+      if (catName.equals(getCategoryList().get(i).name))
+        out = false;
+
+    // VERIFICAR LONGITUD
+    if (catName != null) {
+      if (catName.length() == 0)
+        out = false;
+    } else
+      out = false;
+
+    // RETORNAR SALIDA
     return out;
   }
 

@@ -61,11 +61,17 @@ public class Viewer extends FrameCommon {
   public void saveCategory() {
     // MOSTRAR DIALOGO
     String categoryStr = JOptionPane.showInputDialog(null, "Escribe el nombre de la categoria que deseas agregar");
-    currentCategory = categoryStr;
 
-    // AGREGAR CATEGORIA AL USUARIO Y ACTUALIZAR
-    tempList.addCategory(new Category(currentCategory));
-    updateWholeView(defSrc);
+    // VERIFICAR CATEGORIA
+    if (tempList.verifyCategory(categoryStr)) {
+      currentCategory = categoryStr;
+
+      // AGREGAR CATEGORIA AL USUARIO Y ACTUALIZAR
+      tempList.addCategory(new Category(currentCategory));
+      updateWholeView(defSrc);
+    } else
+      JOptionPane.showMessageDialog(null, "Ocurrio un error al intentar agregar una categoria, intenta de nuevo",
+          "Error al agregar", JOptionPane.ERROR_MESSAGE);
   }
 
   // ACTUALIZAR IMAGEN Y PANEL DE CATEGORIAS
@@ -111,15 +117,15 @@ public class Viewer extends FrameCommon {
   // QUITAR CATEGORIA
   public void removeCategory() {
     // QUITAR DEL USUARIO
+    int removeCategoryIndex = tempList.getCategoryIndex(currentCategory);
     tempList.removeCategory(tempList.getCategory(currentCategory));
 
     // ASIGNAR ULTIMA CATEGORIA Y ACTUALIZAR IMAGEN
     currentCategory = tempList.getLastCategory().name;
-    System.out.print(currentCategory);
     updateImage(tempList.getCategory(currentCategory).images.get(0));
 
     // QUITAR DEL PANEL DE CATEGORIAS
-    categoryPanel.remove(categoryPanel.getComponent(categoryPanel.getComponentCount() - 1));
+    categoryPanel.remove(categoryPanel.getComponent(1 + removeCategoryIndex));
     categoryPanel.repaint();
   }
 
