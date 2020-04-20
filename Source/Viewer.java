@@ -159,13 +159,14 @@ public class Viewer extends FrameCommon {
 
         // CREAR IMAGEN
         ImageIO.write(image, "bmp", output);
+        image.flush();
       }
     } catch (FileNotFoundException e) {
       System.out.println("Error:" + e.getMessage());
     } catch (IOException e) {
       System.out.println("Error:" + e.getMessage());
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      System.out.println("Error: " + e.getMessage());
     }
   }
 
@@ -301,10 +302,10 @@ public class Viewer extends FrameCommon {
   public void saveUser() {
     // CAMBIAR ESTADO Y ENVIAR AL CONTROLADOR
     saveState = true;
-    userController.saveUser(tempList);
+    this.userController.saveUser(tempList);
   }
 
-  public Viewer(String userName) {
+  public Viewer(String userName, Controller userController) {
     // CONFIGURAR VENTANA
     setLayout(new GridBagLayout());
     setFocusable(true);
@@ -371,9 +372,9 @@ public class Viewer extends FrameCommon {
     defSrc = "../Source/assets/imageBackground.jpg";
     defInfo = "Ruta en los archivos de las fotos";
     fileName = new Label(defInfo, Color.white);
-    userController = new Controller(userName);
+    this.userController = userController;
     image = new Image(defSrc, 480, 400);
-    tempList = userController.getData();
+    tempList = this.userController.getData();
     navBtns = new Button[2];
     saveState = true;
     sliderCount = 0;

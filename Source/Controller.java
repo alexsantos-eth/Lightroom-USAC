@@ -1,7 +1,6 @@
 package Source;
 
 import java.io.*;
-import java.io.IOException;
 
 public class Controller {
   // PROPIEDADES GLOBALES
@@ -27,13 +26,14 @@ public class Controller {
       try (FileOutputStream outputStream = new FileOutputStream(archivo)) {
         outputStream.write(bytes);
       }
-    } catch (IOException e) {
-
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
   // LEER ARCHIVO BIN
-  public Object readSerializable() {
+  @SuppressWarnings("unchecked")
+  public LinkedList<User> readSerializable() {
     try {
       // OBTENER BYTES DE ARCHIVO
       File archivo = new File("users.bin");
@@ -49,20 +49,20 @@ public class Controller {
 
       // LEET BYTES
       try (ObjectInputStream inputStream = new ObjectInputStream(stream)) {
-        return inputStream.readObject();
+        return (LinkedList<User>) inputStream.readObject();
       }
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       return null;
     }
   }
 
-  @SuppressWarnings("unchecked")
   public Controller(String name) {
     // OBTENER LISTA
-    LinkedList<User> userList = (LinkedList<User>) readSerializable();
+    LinkedList<User> userList = readSerializable();
 
     // VERIFICAR SI EXISTEN USUARIOS
-    if (userList.getSize() > 0) {
+    if (userList != null && userList.getSize() > 0) {
       // ASIGNAR LISTA
       users = userList;
 
@@ -83,6 +83,9 @@ public class Controller {
       // AGREGAR USUARIO A LISTA
       users.add(nUser);
       currentUser = nUser;
+
+      // CREAR ARCHIVO
+      createSerializable(users);
     }
   }
 
@@ -95,10 +98,12 @@ public class Controller {
     // RECORRER LISTA DE USUARIOS
     for (int i = 0; i < users.getSize(); i++) {
       // VERIFICAR SI TIENEN EL MISMO NOMBRE
-      if (users.get(i).name == name) {
+
+      if (name.equals(users.get(i).name)) {
         // ASIGNAR NUEVO USUARIO
         currentUser = users.get(i);
         newUser = false;
+        break;
       }
     }
 

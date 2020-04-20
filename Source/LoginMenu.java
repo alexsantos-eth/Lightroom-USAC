@@ -96,7 +96,9 @@ public class LoginMenu extends FrameCommon {
     Button login = new Button("INGRESAR", 300, 50);
     login.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent actionEvent) {
-        new Viewer(userInput.getTextField().getText());
+        String name = userInput.getTextField().getText();
+        Controller userController = new Controller(name); 
+        new Viewer(name, userController);
       }
     });
 
