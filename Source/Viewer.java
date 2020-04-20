@@ -115,6 +115,7 @@ public class Viewer extends FrameCommon {
 
     // ASIGNAR ULTIMA CATEGORIA Y ACTUALIZAR IMAGEN
     currentCategory = tempList.getLastCategory().name;
+    System.out.print(currentCategory);
     updateImage(tempList.getCategory(currentCategory).images.get(0));
 
     // QUITAR DEL PANEL DE CATEGORIAS
@@ -471,8 +472,8 @@ public class Viewer extends FrameCommon {
       @Override
       public void windowClosing(WindowEvent windowEvent) {
         // VERIFICAR SI SE GUARDO
-        if (saveState == false & JOptionPane.showConfirmDialog(null, "Deseas guardar antes de salir?", "Cerrar Ventana",
-            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+        if (saveState == false && JOptionPane.showConfirmDialog(null, "Deseas guardar antes de salir?",
+            "Cerrar Ventana", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
           saveUser();
       }
     });
