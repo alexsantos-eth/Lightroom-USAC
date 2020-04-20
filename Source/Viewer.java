@@ -27,9 +27,9 @@ public class Viewer extends FrameCommon {
   private Image image;
 
   // AGREGAR CATEGORIA A PANEL
-  public void addCategoryPane(JPanel pane, String category) {
+  public void addCategoryPane(JPanel pane, String category, Color randomColor) {
     // ACTUALIZAR TEXTO
-    Button nBtn = new Button(category, Theme.colorList[(int) (Math.random() * 17) + 1]);
+    Button nBtn = new Button(category, randomColor);
 
     // EVENTO PARA CAMBIAR DE CATEGORIA
     nBtn.addActionListener(new ActionListener() {
@@ -59,6 +59,12 @@ public class Viewer extends FrameCommon {
 
   // GUARDAR LISTA DE CATEGORIAS
   public void saveCategory() {
+    // ACTUALIZAR CAMBIOS
+    saveState = false;
+
+    // NUEVO COLOR
+    Color randomColor = newRandomColor();
+
     // MOSTRAR DIALOGO
     String categoryStr = JOptionPane.showInputDialog(null, "Escribe el nombre de la categoria que deseas agregar");
 
@@ -66,9 +72,13 @@ public class Viewer extends FrameCommon {
     if (tempList.verifyCategory(categoryStr)) {
       currentCategory = categoryStr;
 
-      // AGREGAR CATEGORIA AL USUARIO Y ACTUALIZAR
-      tempList.addCategory(new Category(currentCategory));
-      updateWholeView(defSrc);
+      // CREAR CATEGORIA
+      Category category = newCategory();
+      category.setColor(randomColor);
+
+      // AGREGAR CATEGORIA AL USUARIO Y
+      tempList.addCategory(category);
+      updateWholeView(defSrc, randomColor);
     }
 
     // MOSTRAR PANEL DE ERROR SI NO SE PUEDE AGREGAR
@@ -78,12 +88,9 @@ public class Viewer extends FrameCommon {
   }
 
   // ACTUALIZAR IMAGEN Y PANEL DE CATEGORIAS
-  public void updateWholeView(String path) {
-    // ACTUALIZAR CAMBIOS
-    saveState = false;
-
+  public void updateWholeView(String path, Color randomColor) {
     updateImage(path);
-    addCategoryPane(categoryPanel, currentCategory);
+    addCategoryPane(categoryPanel, currentCategory, randomColor);
   }
 
   // ACTUALIZAR CONTROLES DE NAVEGACION
@@ -150,6 +157,17 @@ public class Viewer extends FrameCommon {
     }
   }
 
+  // CREAR COLOR RANDOM
+  public Color newRandomColor() {
+    return Theme.colorList[(int) (Math.random() * 17) + 1];
+  }
+
+  // CREAR NUEVA CATEGORIA
+  public Category newCategory() {
+    // CREAR OBJETO Y COLOR
+    return new Category(currentCategory);
+  }
+
   // CONVERTIR IMAGEN A BMP
   public void convertToBMP(String path) {
     try {
@@ -192,8 +210,14 @@ public class Viewer extends FrameCommon {
 
     // ASIGNAR NUEVA CATEGORIA SI NO HAY
     if (tempList.getCategoryList().getSize() == 0) {
-      addCategoryPane(categoryPanel, catName);
-      tempList.addCategory(new Category(catName));
+      // CREAR NUEVA CATEGORIA
+      Color randomColor = newRandomColor();
+      Category category = newCategory();
+      category.setColor(randomColor);
+
+      // AGREGAR NUEVA CATEGORIA
+      addCategoryPane(categoryPanel, catName, randomColor);
+      tempList.addCategory(category);
     }
 
     // AGREGAR IMAGENES A LA CATEGORIA
@@ -297,16 +321,19 @@ public class Viewer extends FrameCommon {
 
     // RECORRER LISTA
     for (int i = 0; i < catList.getSize(); i++) {
-      // CREAR DIRECCION
+      // CREAR DIRECCION Y COLOR
+      Color color = newRandomColor();
       String path = defSrc;
       currentCategory = catList.get(i).name;
 
       // ASIGNAR DIRECCION
-      if (catList.get(i).images.getSize() > 0)
+      if (catList.get(i).images.getSize() > 0) {
         path = catList.get(i).images.get(0);
+        color = catList.get(i).color;
+      }
 
       // ACTUALIZAR PANELES
-      updateWholeView(path);
+      updateWholeView(path, color);
     }
   }
 

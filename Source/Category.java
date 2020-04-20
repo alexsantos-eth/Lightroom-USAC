@@ -1,6 +1,7 @@
 package Source;
 
 import java.io.Serializable;
+import java.awt.*;
 
 public class Category implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -8,6 +9,7 @@ public class Category implements Serializable {
   // PROPIEDADES
   public DoublyLinkedList<String> images;
   public String name;
+  public Color color;
 
   public Category(String name) {
     // VALORES INICIALES
@@ -25,4 +27,8 @@ public class Category implements Serializable {
     images.delete(path);
   }
 
+  // ASIGNAR COLOR
+  public void setColor(Color newColor) {
+    this.color = newColor;
+  }
 }

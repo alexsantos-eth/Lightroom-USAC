@@ -19,6 +19,7 @@ public class Image extends JEditorPane {
 
     // CONFIGURAR PANEL
     setEditable(false);
+    setOpaque(true);
 
     // AGREGAR SCROLL
     scrollPane = new JScrollPane(this);
