@@ -10,9 +10,12 @@ public class LightRoom {
     // prueba.add("Mundo");
     // prueba.add("Nueva");
 
-    // prueba.replace("Mundo", "Nuevo Mundo");
+    // prueba.delete("Nueva");
 
-    // // // // System.out.println(prueba.getIndex("Hasds"));
+    // prueba.add("Ves");
+    // // // prueba.replace("Mundo", "Nuevo Mundo");
+
+    // // // // // // System.out.println(prueba.getIndex("Hasds"));
 
     // for (int i = 0; i < prueba.getSize(); i++) {
     // System.out.println(prueba.get(i));

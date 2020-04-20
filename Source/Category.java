@@ -13,4 +13,8 @@ public class Category {
     images.add(path);
   }
 
+  public void deleteImage(String path) {
+    images.delete(path);
+  }
+
 }

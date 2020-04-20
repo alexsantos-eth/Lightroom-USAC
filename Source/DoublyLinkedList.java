@@ -32,7 +32,6 @@ public class DoublyLinkedList<T> extends EstructuraDeDatos {
       lastNode = new DoubleNode<T>((T) item);
       auxNode.next = lastNode;
       lastNode.prev = auxNode;
-
     }
     this.index++;
   }
@@ -156,6 +155,12 @@ public class DoublyLinkedList<T> extends EstructuraDeDatos {
           }
         }
       }
+    } else {
+      for (int i = 0; i < this.index - 2; i++)
+        auxNode = auxNode.next;
+
+      lastNode = auxNode;
+      lastNode.next = null;
     }
 
     this.index--;

@@ -71,6 +71,11 @@ public class LinkedList<T> extends EstructuraDeDatos {
           }
         }
       }
+    } else {
+      for (int i = 0; i < this.index - 2; i++)
+        auxNode = auxNode.next;
+
+      auxNode.next = null;
     }
 
     this.index--;

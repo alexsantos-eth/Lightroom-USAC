@@ -2,6 +2,7 @@ package Source;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.color.*;
 import java.io.*;
 
 public class Image extends JEditorPane {
@@ -11,10 +12,11 @@ public class Image extends JEditorPane {
   String src;
 
   public Image(String src, int width, int height) {
-    this.src = src + ".bmp";
+    this.src = src.contains(".bmp") ? src : src + ".bmp";
     this.width = width;
     this.height = height;
 
+    setBackground(Color.white);
     setEditable(false);
 
     scrollPane = new JScrollPane(this);
@@ -24,7 +26,7 @@ public class Image extends JEditorPane {
   }
 
   public void updateSrc(String path) {
-    this.src = path + ".bmp";
+    this.src = path.contains(".bmp") ? path : path + ".bmp";
     repaint();
   }
 
@@ -57,8 +59,6 @@ public class Image extends JEditorPane {
       int width = toInt(byteArry, 18);
       int height = toInt(byteArry, 22);
 
-      System.out.println(width);
-
       setSize(width, height);
 
       int x = width, y = 0;
@@ -67,6 +67,7 @@ public class Image extends JEditorPane {
         int B = byteArry[i + 1] & 0xFF;
         int G = byteArry[i + 2] & 0xFF;
         int R = byteArry[i + 3] & 0xFF;
+
         g.setColor(new Color(R, G, B));
         g.drawLine(x, y, x, y);
 

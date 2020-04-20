@@ -24,7 +24,6 @@ public class Viewer extends FrameCommon {
   private Image image;
   private String currentCategory;
   private Controller userController;
-  private Category currentCategoryList;
   private Boolean saveState;
 
   // AGREGAR CATEGORIA A PANEL
@@ -66,7 +65,6 @@ public class Viewer extends FrameCommon {
   public void updateWholeView(String path) {
     updateImage(path);
     addCategoryPane(categoryPanel, currentCategory);
-
   }
 
   // ACTUALIZAR CONTROLES DE NAVEGACION
@@ -115,11 +113,13 @@ public class Viewer extends FrameCommon {
 
   public void convertToBMP(String path) {
     try {
-      File input = new File(path);
-      BufferedImage image = ImageIO.read(input);
-      String outputName = path + ".bmp";
-      File output = new File(outputName);
-      ImageIO.write(image, "bmp", output);
+      if (!path.contains(".bmp")) {
+        File input = new File(path);
+        BufferedImage image = ImageIO.read(input);
+        String outputName = path + ".bmp";
+        File output = new File(outputName);
+        ImageIO.write(image, "bmp", output);
+      }
     } catch (FileNotFoundException e) {
       System.out.println("Error:" + e.getMessage());
     } catch (IOException e) {
@@ -142,17 +142,14 @@ public class Viewer extends FrameCommon {
     // LISTA DE ARCHIVOS
     File[] paths = dialog.getFiles();
 
-    currentCategoryList = tempList.getCategory(currentCategory);
     if (tempList.getCategoryList().getSize() == 0) {
       addCategoryPane(categoryPanel, catName);
-      currentCategoryList = new Category(catName);
-      tempList.addCategory(currentCategoryList);
-      tempList.addCategory(currentCategoryList);
+      tempList.addCategory(new Category(catName));
     }
 
     for (int i = 0; i < paths.length; i++) {
       convertToBMP(paths[i].getAbsolutePath());
-      currentCategoryList.addImages(paths[i].getAbsolutePath());
+      tempList.getCategory(currentCategory).addImages(paths[i].getAbsolutePath());
     }
 
     // ACTUALIZAR CONTROLES
@@ -162,6 +159,8 @@ public class Viewer extends FrameCommon {
     // ACTUALIZAR IMAGEN
     sliderCount = 0;
     updateImage(tempList.getCategory(currentCategory).images.get(0));
+
+    dialog.setEnabled(false);
   }
 
   // ACTUALIZAR IMAGE
@@ -210,8 +209,9 @@ public class Viewer extends FrameCommon {
   }
 
   public void deleteImage() {
-    tempList.getCategory(currentCategory).images.delete(sliderCount);
-    if (sliderCount != 0)
+    tempList.getCategory(currentCategory).deleteImage(tempList.getCategory(currentCategory).images.get(sliderCount));
+
+    if (sliderCount > 0)
       sliderCount--;
 
     updateImage(tempList.getCategory(currentCategory).images.getSize() == 0 ? defSrc
@@ -240,7 +240,7 @@ public class Viewer extends FrameCommon {
     // CONFIG
     setLayout(new GridBagLayout());
     setFocusable(true);
-    setSize(800, 600);
+    setSize(850, 650);
     setResizable(true);
 
     // EVENTOS
