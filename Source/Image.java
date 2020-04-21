@@ -9,6 +9,8 @@ public class Image extends JEditorPane {
   private static final long serialVersionUID = 1L;
   JScrollPane scrollPane;
   int width, height;
+  byte[] byteArry;
+  File imgFile;
   String src;
 
   public Image(String src, int width, int height) {
@@ -26,11 +28,34 @@ public class Image extends JEditorPane {
     scrollPane.setPreferredSize(new Dimension(width, height));
     scrollPane.setBorder(null);
     scrollPane.setViewportBorder(null);
+
+    // PINTAR POR PRIMERA
+    updateSrc(src);
   }
 
   // ACTUALIZAR IMAGEN
   public void updateSrc(String path) {
+    // OBTENER RUTA
     this.src = path.contains(".bmp") ? path : path + ".bmp";
+
+    try {
+      // LEER ARCHIVO Y OBTENER BYTES
+      imgFile = new File(src);
+      byteArry = toByteArray(imgFile);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // OBTENER ANCHO DEL BYTE 18-21
+    width = toInt(byteArry, 18);
+
+    // OBTENER ALTO DEL BYTE 22-25
+    height = toInt(byteArry, 22);
+
+    // ASIGNAR DIMENSION
+    setSize(width, height);
+
+    // DIBUJAR
     repaint();
   }
 
@@ -69,20 +94,7 @@ public class Image extends JEditorPane {
 
   // RENDERIZAR IMAGEN
   public void paint(Graphics g) {
-    try {
-      // LEER ARCHIVO Y OBTENER BYTES
-      File imgFile = new File(src);
-      byte[] byteArry = toByteArray(imgFile);
-
-      // OBTENER ANCHO DEL BYTE 18-21
-      int width = toInt(byteArry, 18);
-
-      // OBTENER ALTO DEL BYTE 22-25
-      int height = toInt(byteArry, 22);
-
-      // ASIGNAR DIMENSION
-      setSize(width, height);
-
+    if (byteArry.length > 0) {
       // VALOR INICIAL
       int x = width, y = 0;
 
@@ -94,32 +106,18 @@ public class Image extends JEditorPane {
         int R = (byteArry[i + 3] & 0xFF);
 
         // LIMITAR VALORES PARA LOS FILTROS EN PROXIMA FASE
-        if (B > 255)
-          B = 255;
-        if (G > 255)
-          G = 255;
-        if (R > 255)
-          R = 255;
-        if (B < 0)
-          B = 0;
-        if (G < 0)
-          G = 0;
-        if (R < 0)
-          R = 0;
+        B = B > 255 ? 255 : B < 0 ? 0 : B;
+        G = G > 255 ? 255 : G < 0 ? 0 : G;
+        R = R > 255 ? 255 : R < 0 ? 0 : R;
 
         // AGREGAR COLOR Y DIBUJAR
         g.setColor(new Color(R, G, B));
         g.drawLine(x, y, x, y);
 
         // REINICIAR CONTADORES
-        x--;
-        if (x == 0) {
-          x = width;
-          y++;
-        }
+        y = x - 1 == 0 ? y + 1 : y;
+        x = x - 1 == 0 ? width : x - 1;
       }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 }
