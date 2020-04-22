@@ -11,11 +11,11 @@ public class Image extends JEditorPane {
   int width, height;
   byte[] byteArry;
   File imgFile;
-  String src;
+  String src, imageName;
 
   public Image(String src, int width, int height) {
     // VALORES INICIALES
-    this.src = src.contains(".bmp") ? src : src + ".bmp";
+    this.src = src.contains(".bmp") ? src : src.substring(0, src.lastIndexOf(".")) + ".bmp";
     this.height = height;
     this.width = width;
 
@@ -36,7 +36,9 @@ public class Image extends JEditorPane {
   // ACTUALIZAR IMAGEN
   public void updateSrc(String path) {
     // OBTENER RUTA
-    this.src = path.contains(".bmp") ? path : path + ".bmp";
+    imageName = path.replaceAll("\\\\", "/");
+    imageName = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf("."));
+    this.src = path.contains(".bmp") ? path : "tmp/view/" + imageName + ".bmp";
 
     try {
       // LEER ARCHIVO Y OBTENER BYTES
@@ -65,7 +67,7 @@ public class Image extends JEditorPane {
   }
 
   // CONVERTIR A BYTES[]
-  private static byte[] toByteArray(File file) throws FileNotFoundException {
+  public static byte[] toByteArray(File file) throws FileNotFoundException {
     // ABRIR STREAM
     FileInputStream fis = new FileInputStream(file);
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -87,8 +89,18 @@ public class Image extends JEditorPane {
     return bos.toByteArray();
   }
 
+  // OBTENER ALTO DE BITMAP
+  public static int getWidth(byte[] bitmap) {
+    return toInt(bitmap, 18);
+  }
+
+  // OBTENER ANCHO DE BITMAP
+  public static int getHeight(byte[] bitmap) {
+    return toInt(bitmap, 22);
+  }
+
   // OBTENER ENTERO ORDENADO LITTLE-ENDIAN
-  private int toInt(byte[] a, int offs) {
+  private static int toInt(byte[] a, int offs) {
     return (a[offs + 3] & 0xFF) << 24 | (a[offs + 2] & 0xFF) << 16 | (a[offs + 1] & 0xFF) << 8 | a[offs] & 0xFF;
   }
 

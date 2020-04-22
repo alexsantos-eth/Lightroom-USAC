@@ -17,7 +17,7 @@ public class Input extends JPanel {
     // COMPONENTES
     inputField = new JTextField();
     inputField.setForeground(new Color(100, 100, 100));
-    inputField.setFont(Theme.font);
+    inputField.setFont(Globals.font);
     inputField.setBorder(new RoundedBorder(10));
     inputField.setText(placeholder);
 
@@ -32,7 +32,7 @@ public class Input extends JPanel {
     // LABEL
     JLabel inputLabel = new JLabel(label);
     inputLabel.setForeground(new Color(100, 100, 100));
-    inputLabel.setFont(Theme.font.deriveFont(Font.BOLD));
+    inputLabel.setFont(Globals.font.deriveFont(Font.BOLD));
 
     // AGREGAR TEXT FIELD Y LABEL
     add(inputLabel);

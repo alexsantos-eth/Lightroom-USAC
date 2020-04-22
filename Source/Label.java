@@ -10,7 +10,7 @@ public class Label extends JLabel {
   // CREAR PROPIEDADES
   private void setProperties(String text) {
     setText(text);
-    setFont(Theme.font.deriveFont(Font.BOLD));
+    setFont(Globals.font.deriveFont(Font.BOLD));
     setForeground(new Color(100, 100, 100));
   }
 

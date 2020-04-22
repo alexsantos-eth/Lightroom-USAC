@@ -34,7 +34,7 @@ class Button extends JButton {
   // CONSTRUCTORES
   public Button(String text) {
     setProperties(text);
-    setBackground(Theme.blue);
+    setBackground(Globals.blue);
   }
 
   // CONSTRUCTORES
@@ -46,7 +46,7 @@ class Button extends JButton {
   // CONSTRUCTORES
   public Button(String text, int width, int height) {
     setProperties(text);
-    setBackground(Theme.blue);
+    setBackground(Globals.blue);
     setPreferredSize(new Dimension(width, height));
   }
 

@@ -1,15 +1,10 @@
 package Source;
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
-import javax.swing.border.EmptyBorder;
-import java.io.*;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import javax.swing.border.*;
 
 public class Viewer extends FrameCommon {
   // VARIABLES GLOBALES
@@ -159,39 +154,13 @@ public class Viewer extends FrameCommon {
 
   // CREAR COLOR RANDOM
   public Color newRandomColor() {
-    return Theme.colorList[(int) (Math.random() * 17) + 1];
+    return Globals.colorList[(int) (Math.random() * 17) + 1];
   }
 
   // CREAR NUEVA CATEGORIA
   public Category newCategory() {
     // CREAR OBJETO Y COLOR
     return new Category(currentCategory);
-  }
-
-  // CONVERTIR IMAGEN A BMP
-  public void convertToBMP(String path) {
-    try {
-      // VERIFICAR QUE NO SEA UNA BMP
-      if (!path.contains(".bmp")) {
-        // LEER IMAGEN
-        File input = new File(path);
-        BufferedImage image = ImageIO.read(input);
-
-        // IMAGEN DE SALIDA
-        String outputName = path + ".bmp";
-        File output = new File(outputName);
-
-        // CREAR IMAGEN
-        ImageIO.write(image, "bmp", output);
-        image.flush();
-      }
-    } catch (FileNotFoundException e) {
-      System.out.println("Error:" + e.getMessage());
-    } catch (IOException e) {
-      System.out.println("Error:" + e.getMessage());
-    } catch (Exception e) {
-      System.out.println("Error: " + e.getMessage());
-    }
   }
 
   // LEER ARCHIVOS
@@ -222,7 +191,7 @@ public class Viewer extends FrameCommon {
 
     // AGREGAR IMAGENES A LA CATEGORIA
     for (int i = 0; i < paths.length; i++) {
-      convertToBMP(paths[i].getAbsolutePath());
+      new JPEGtoBMPImage(paths[i].getAbsolutePath(), "tmp/view/");
       tempList.getCategory(currentCategory).addImages(paths[i].getAbsolutePath());
     }
 
@@ -321,6 +290,17 @@ public class Viewer extends FrameCommon {
 
     // RECORRER LISTA
     for (int i = 0; i < catList.getSize(); i++) {
+      // CREAR IMAGENES
+      for (int j = 0; j < catList.get(i).images.getSize(); j++) {
+        String path = catList.get(i).images.get(i);
+        String imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+        File tmpFile = new File("tmp/view/" + imageName);
+
+        if (!tmpFile.exists()) {
+          new JPEGtoBMPImage(catList.get(i).images.get(j), "tmp/view/");
+        }
+      }
+
       // CREAR DIRECCION Y COLOR
       Color color = newRandomColor();
       String path = defSrc;
@@ -425,7 +405,7 @@ public class Viewer extends FrameCommon {
     // PANEL DE CATEGORIA
     categoryPanel = new JPanel();
     categoryPanel.setBackground(new Color(60, 60, 60));
-    categoryPanel.setFont(Theme.font);
+    categoryPanel.setFont(Globals.font);
     categoryPanel.setAlignmentY(SwingConstants.CENTER);
     categoryPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
     categoryPanel.setPreferredSize(new Dimension(250, 556));
@@ -504,13 +484,13 @@ public class Viewer extends FrameCommon {
 
     // TITULO
     Label nameTitle = new Label(userName.toUpperCase() + " WORKSPACE", Color.white);
-    nameTitle.setFont(Theme.font.deriveFont(18f).deriveFont(Font.BOLD));
+    nameTitle.setFont(Globals.font.deriveFont(18f).deriveFont(Font.BOLD));
 
     // COMPONENTES PRIMITIVOS
     Button openImage = new Button("Abrir imagen", 238, 50);
     Button addCategory = new Button("Agregar categoria", 238, 5);
-    Button deleteImage = new Button("Eliminar imagen", 238, 50, Theme.grayBlue);
-    Button removeCategory = new Button("Eliminar categoria", 238, 50, Theme.grayBlue);
+    Button deleteImage = new Button("Eliminar imagen", 238, 50, Globals.grayBlue);
+    Button removeCategory = new Button("Eliminar categoria", 238, 50, Globals.grayBlue);
 
     // ============= ASIGNAR EVENTOS ==============
     // EVENTO DE AGREGAR CATEGORIA

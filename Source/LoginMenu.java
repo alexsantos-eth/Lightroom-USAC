@@ -85,11 +85,11 @@ public class LoginMenu extends FrameCommon {
     Label title = new Label("MENU PRINCIPAL");
 
     // BOTON DE EDITOR
-    Button editorBtn = new Button("EDITOR", 220, 50, Theme.grayBlue);
+    Button editorBtn = new Button("EDITOR", 220, 50, Globals.grayBlue);
     editorBtn.addActionListener(editorAction);
 
     // BOTON DE CONVERTIDOR
-    Button converterBtn = new Button("CONVERTIDOR", 220 - (margin / 2), 50, Theme.grayBlue);
+    Button converterBtn = new Button("CONVERTIDOR", 220 - (margin / 2), 50, Globals.grayBlue);
     converterBtn.addActionListener(converterAction);
 
     // BOTON DE INGRESAR
@@ -97,7 +97,7 @@ public class LoginMenu extends FrameCommon {
     login.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent actionEvent) {
         String name = userInput.getTextField().getText();
-        Controller userController = new Controller(name); 
+        Controller userController = new Controller(name);
         new Viewer(name, userController);
       }
     });

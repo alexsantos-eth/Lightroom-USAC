@@ -3,7 +3,7 @@ package Source;
 import java.awt.Color;
 import java.awt.Font;
 
-public class Theme {
+public class Globals {
   // COLORES
   public static Color red = new Color(244, 67, 54);
   public static Color pink = new Color(233, 30, 99);
@@ -31,4 +31,9 @@ public class Theme {
 
   // COLOR ALEATORIO
   public static Color randomColor = colorList[(int) (Math.random() * 17) + 1];
+
+  // PATH DEL PROYECTO
+  public static String path = System.getProperty("user.dir").replaceAll("\\\\", "/");
+  public static String parentPath = path.substring(0, path.lastIndexOf("/"));
+
 }

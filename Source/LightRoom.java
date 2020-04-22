@@ -4,13 +4,23 @@ import javax.swing.*;
 
 public class LightRoom {
   public static void main(String[] args) {
+    String path = "C:/Users/ernesto/Desktop/RandomImages/image0.jpg";
+    ImageHandler colors = new JPEGImageHandlerColors(path);
+
     try {
-      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-        | UnsupportedLookAndFeelException e) {
+      JPEGHandler.runHandler(colors);
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
-    new LoginMenu();
+    // try {
+    // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    // } catch (ClassNotFoundException | InstantiationException |
+    // IllegalAccessException
+    // | UnsupportedLookAndFeelException e) {
+    // e.printStackTrace();
+    // }
+
+    // new LoginMenu();
   }
 }
