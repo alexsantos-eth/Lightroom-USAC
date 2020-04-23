@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 public class JPEGtoBMPImage {
-  private void genFiles(String path, String outputName) {
+  private void genFiles(String path, String outputName, Boolean temporal) {
     try {
       // VERIFICAR QUE NO SEA UNA BMP
       // LEER IMAGEN
@@ -16,7 +16,8 @@ public class JPEGtoBMPImage {
       File output = new File(outputName);
 
       // ELIMINAR LA IMAGEN
-      output.deleteOnExit();
+      if (temporal)
+        output.deleteOnExit();
 
       // CREAR IMAGEN
       ImageIO.write(image, "bmp", output);
@@ -39,7 +40,7 @@ public class JPEGtoBMPImage {
         + originalPath.substring(originalPath.lastIndexOf("/") + 1, originalPath.lastIndexOf(".")) + ".bmp";
 
     // GENERAR ARCHIVOS
-    genFiles(path, outputName);
+    genFiles(path, outputName, true);
   }
 
   public JPEGtoBMPImage(String path) {
@@ -47,6 +48,14 @@ public class JPEGtoBMPImage {
     String outputName = path.substring(0, path.lastIndexOf(".")) + ".bmp";
 
     // GENERAR ARCHIVOS
-    genFiles(path, outputName);
+    genFiles(path, outputName, true);
+  }
+
+  public JPEGtoBMPImage(String path, Boolean temporal) {
+    // IMAGEN DE SALIDA
+    String outputName = path.substring(0, path.lastIndexOf(".")) + ".bmp";
+
+    // GENERAR ARCHIVOS
+    genFiles(path, outputName, temporal);
   }
 }
