@@ -5,10 +5,13 @@ import javax.swing.*;
 public class LightRoom {
   public static void main(String[] args) {
     String path = "C:/Users/ernesto/Desktop/RandomImages/image0.jpg";
-    ImageHandler colors = new JPEGImageHandlerColors(path);
+    ImageHandler[] handlers = { new JPEGImageCopy(path), new JPEGImageHandlerColors(path),
+        new JPEGImageHandlerRotator(path), new JPEGImageHandlerBN(path) };
 
     try {
-      JPEGHandler.runHandler(colors);
+      for (int i = 0; i < handlers.length; i++)
+        JPEGHandler.runHandler(handlers[i]);
+
     } catch (Exception e) {
       e.printStackTrace();
     }

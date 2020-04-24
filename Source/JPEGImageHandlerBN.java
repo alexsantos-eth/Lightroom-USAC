@@ -4,15 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class JPEGImageHandlerColors extends ImageHandler {
+public class JPEGImageHandlerBN extends ImageHandler {
   // GLOBALES
   final String resPath;
   final String imageName;
-  int width, height;
   byte[] bitmap;
 
   // CONSTRUCTOR
-  public JPEGImageHandlerColors(String path) {
+  public JPEGImageHandlerBN(String path) {
     // ENVIAR handledFileName
     super(path);
 
@@ -21,7 +20,7 @@ public class JPEGImageHandlerColors extends ImageHandler {
     resPath = imageName + ".bmp";
   }
 
-  private byte[] filteredBitMap(int mode) {
+  private byte[] filteredBitMap() {
     // COPIA DE BITMAP
     byte[] newBitmap = bitmap.clone();
 
@@ -29,23 +28,11 @@ public class JPEGImageHandlerColors extends ImageHandler {
       // RECORRER BITMAP
       for (int i = newBitmap.length - 4; i > 54; i -= 3) {
         // OBTENER COLORES
-        byte B = newBitmap[i + 1];
         byte G = newBitmap[i + 2];
-        byte R = newBitmap[i + 3];
 
-        // FILTRO SEPIA
-        if (mode == 3) {
-          newBitmap[i + 1] = (byte) Math.min((0.272 * R) + (0.534 * G) + (0.131 * B), 255.0);
-          newBitmap[i + 2] = (byte) Math.min((0.349 * R) + (0.686 * G) + (0.168 * B), 255.0);
-          newBitmap[i + 3] = (byte) Math.min((0.393 * R) + (0.769 * G) + (0.189 * B), 255.0);
-        }
-
-        // IMAGEN NORMAL CON UN SOLO COLOR
-        else {
-          newBitmap[i + 1] = mode == 2 ? B : 0;
-          newBitmap[i + 2] = mode == 1 ? G : 0;
-          newBitmap[i + 3] = mode == 0 ? R : 0;
-        }
+        // FILTRO GRAYSCALE
+        newBitmap[i + 1] = G;
+        newBitmap[i + 3] = G;
       }
     }
 
@@ -56,10 +43,10 @@ public class JPEGImageHandlerColors extends ImageHandler {
   // GENERAR ARCHIVO
   private void genColorFile(byte[] colorBitmap, String color) throws IOException {
     // MENSAJE EN CONSOLA
-    System.out.println("Generando imagen con filtro " + color);
+    System.out.println("Generando imagen en blanco y negro ...");
 
     // CREAR IMAGEN
-    String tmpPath = "tmp/colors/" + color + "-" + imageName + ".bmp";
+    String tmpPath = "tmp/bn/" + color + "-" + imageName + ".bmp";
     FileOutputStream output = new FileOutputStream(tmpPath);
     output.write(colorBitmap);
     output.close();
@@ -79,25 +66,21 @@ public class JPEGImageHandlerColors extends ImageHandler {
     System.out.println("Generando mapa de bits ...");
 
     // CREAR BMP
-    new JPEGtoBMPImage(this.handledFileName, "tmp/colors/");
+    new JPEGtoBMPImage(this.handledFileName, "tmp/bn/");
 
     // OBTENER ARCHIVO RESULTANTE
-    File newBMP = new File("tmp/colors/" + imageName + ".bmp");
+    File newBMP = new File("tmp/bn/" + imageName + ".bmp");
 
-    // OBTENER MAPA, ANCHO Y ALTO
+    // OBTENER MAPA
     bitmap = Image.toByteArray(newBMP);
-    width = Image.getWidth(bitmap);
-    height = Image.getHeight(bitmap);
   }
 
   @Override
   public void generateFiles() throws Exception {
     // NOMBRES PARA BITMAPS
-    String[] colorNames = { "Red", "Green", "Blue", "Sepia" };
+    byte[] bnBitmap = filteredBitMap();
 
     // GENERAR ARCHIVOS
-    for (int i = 0; i < colorNames.length; i++)
-      genColorFile(filteredBitMap(i), colorNames[i]);
+    genColorFile(bnBitmap, "BN");
   }
-
 }

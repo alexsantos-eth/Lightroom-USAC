@@ -11,14 +11,14 @@ public class JPEGImageCopy extends ImageHandler {
 
   public JPEGImageCopy(String path) {
     super(path);
-    imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+    imageName = Image.getName(path);
     resPath = imageName + ".bmp";
   }
 
   @Override
   public void readFile() throws Exception {
     System.out.println("Imagen Leida: " + this.handledFileName);
-    new JPEGtoBMPImage(this.handledFileName);
+    new JPEGtoBMPImage(this.handledFileName, "");
 
     System.out.println("Imagen generada: " + resPath);
 
