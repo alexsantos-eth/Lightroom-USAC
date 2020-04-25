@@ -17,10 +17,9 @@ public class JPEGImageCopy extends ImageHandler {
 
   @Override
   public void readFile() throws Exception {
-    System.out.println("Imagen Leida: " + this.handledFileName);
-    new JPEGtoBMPImage(this.handledFileName, "");
-
-    System.out.println("Imagen generada: " + resPath);
+    // HANDLER
+    ImageHandler toBMP = new JPEGtoBMPImage(this.handledFileName, "");
+    JPEGHandler.runHandler(toBMP);
 
     bmpCopy = new BmpHandlerCopy(resPath);
     bmpCopy.readFile();
@@ -29,8 +28,8 @@ public class JPEGImageCopy extends ImageHandler {
   @Override
   public void generateFiles() throws Exception {
     bmpCopy.generateFiles();
-    System.out.println("Imagen Leida: " + "copy-" + resPath);
-    new BMPtoJPEGImage("copy-" + resPath, "");
+    ImageHandler toJPEG = new BMPtoJPEGImage("copy-" + resPath, "");
+    JPEGHandler.runHandler(toJPEG);
 
     // IMAGENES RESULTANTES
     File firstBMP = new File(this.resPath);

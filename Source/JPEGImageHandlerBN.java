@@ -52,7 +52,12 @@ public class JPEGImageHandlerBN extends ImageHandler {
     output.close();
 
     // CONVERTIRLA DE BMP A JPEG
-    new BMPtoJPEGImage(tmpPath, false);
+    ImageHandler toJPEG = new BMPtoJPEGImage(tmpPath, false);
+    try {
+      JPEGHandler.runHandler(toJPEG);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     // BORRAR BMP
     File tmpBMP = new File(tmpPath);
@@ -66,7 +71,8 @@ public class JPEGImageHandlerBN extends ImageHandler {
     System.out.println("Generando mapa de bits ...");
 
     // CREAR BMP
-    new JPEGtoBMPImage(this.handledFileName, "tmp/bn/");
+    ImageHandler toBMP = new JPEGtoBMPImage(this.handledFileName, "tmp/bn/");
+    JPEGHandler.runHandler(toBMP);
 
     // OBTENER ARCHIVO RESULTANTE
     File newBMP = new File("tmp/bn/" + imageName + ".bmp");

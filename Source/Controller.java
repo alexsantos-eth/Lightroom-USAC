@@ -97,7 +97,12 @@ public class Controller {
         File tmpFile = new File("tmp/view/" + imageName);
 
         if (!tmpFile.exists()) {
-          new JPEGtoBMPImage(catList.get(i).images.get(j), "tmp/view/");
+          ImageHandler convert = new JPEGtoBMPImage(catList.get(i).images.get(j), "tmp/view/");
+          try {
+            JPEGHandler.runHandler(convert);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       }
     }

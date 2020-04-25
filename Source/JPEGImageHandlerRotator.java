@@ -83,7 +83,12 @@ public class JPEGImageHandlerRotator extends ImageHandler {
     output.close();
 
     // CONVERTIRLA DE BMP A JPEG
-    new BMPtoJPEGImage(tmpPath, false);
+    ImageHandler toJPEG = new BMPtoJPEGImage(tmpPath, false);
+    try {
+      JPEGHandler.runHandler(toJPEG);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     // BORRAR BMP
     File tmpBMP = new File(tmpPath);
@@ -97,7 +102,8 @@ public class JPEGImageHandlerRotator extends ImageHandler {
     System.out.println("Generando mapa de bits ...");
 
     // CREAR BMP
-    new JPEGtoBMPImage(this.handledFileName, "tmp/rotations/");
+    ImageHandler toBMP = new JPEGtoBMPImage(this.handledFileName, "tmp/rotations/");
+    JPEGHandler.runHandler(toBMP);
 
     // OBTENER ARCHIVO RESULTANTE
     File newBMP = new File("tmp/rotations/" + imageName + ".bmp");

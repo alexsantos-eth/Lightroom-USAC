@@ -27,12 +27,16 @@ public class Editor extends FrameCommon {
 
     try {
       // CONVERTIR A BMP
-      if (imageExt.equals("jpeg") || imageExt.equals("jpg"))
-        new JPEGtoBMPImage(currentPath, "tmp/converted/", "converted-");
+      if (imageExt.equals("jpeg") || imageExt.equals("jpg")) {
+        ImageHandler toBMP = new JPEGtoBMPImage(currentPath, "tmp/converted/", "converted-", false);
+        JPEGHandler.runHandler(toBMP);
+      }
 
       // CONVERTIR A JPEG
-      else
-        new BMPtoJPEGImage(currentPath, "tmp/converted/", "converted-");
+      else {
+        ImageHandler toJPEG = new BMPtoJPEGImage(currentPath, "tmp/converted/", "converted-", false);
+        JPEGHandler.runHandler(toJPEG);
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }

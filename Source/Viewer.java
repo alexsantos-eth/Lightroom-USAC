@@ -191,7 +191,13 @@ public class Viewer extends FrameCommon {
 
     // AGREGAR IMAGENES A LA CATEGORIA
     for (int i = 0; i < paths.length; i++) {
-      new JPEGtoBMPImage(paths[i].getAbsolutePath(), "tmp/view/");
+      ImageHandler toBMP = new JPEGtoBMPImage(paths[i].getAbsolutePath(), "tmp/view/");
+      try {
+        JPEGHandler.runHandler(toBMP);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
       tempList.getCategory(currentCategory).addImages(paths[i].getAbsolutePath());
     }
 
