@@ -1,0 +1,55 @@
+package Source;
+
+import javax.swing.*;
+import java.awt.event.*;
+
+public class EditorMenu extends JMenuBar {
+  private static final long serialVersionUID = 1L;
+  private JMenu toolsMenu;
+  public JMenuItem copyItem, convertItem, rotateItem, filterItem, bnItem;
+
+  public EditorMenu() {
+    // MENUS PRINCIPALES
+    toolsMenu = new JMenu("Archivo");
+
+    // MENU DE ABRIR
+    copyItem = new JMenuItem("Copiar imagen");
+    copyItem.setMnemonic(KeyEvent.VK_C);
+    copyItem.setToolTipText("Copiar jpeg");
+    copyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
+
+    // MENU DE CERRAR
+    convertItem = new JMenuItem("Convertir imagen");
+    convertItem.setMnemonic(KeyEvent.VK_A);
+    convertItem.setToolTipText("Convertir de JPEG a BMP y viceversa");
+    convertItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+
+    // CREAR CATEGORIA
+    rotateItem = new JMenuItem("Rotar Imagen");
+    rotateItem.setMnemonic(KeyEvent.VK_R);
+    rotateItem.setToolTipText("Rotar horizontal y vertical");
+    rotateItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
+
+    // QUITAR CATEGORIA
+    filterItem = new JMenuItem("Aplicar filtros");
+    filterItem.setMnemonic(KeyEvent.VK_F);
+    filterItem.setToolTipText("Filtros Rojo, Verde, Azul y Sepia");
+    filterItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK));
+
+    // GUARDAR ESPACIO DE TRABAJO
+    bnItem = new JMenuItem("Blanco y Negro");
+    bnItem.setMnemonic(KeyEvent.VK_B);
+    bnItem.setToolTipText("Filtro Blanco y Negro");
+    bnItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK));
+
+    // AGREGAR A MENU DE ARCHIVO
+    toolsMenu.add(copyItem);
+    toolsMenu.add(convertItem);
+    toolsMenu.add(rotateItem);
+    toolsMenu.add(filterItem);
+    toolsMenu.add(bnItem);
+
+    // AGREGAR A MENUBAR
+    add(toolsMenu);
+  }
+}

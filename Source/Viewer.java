@@ -290,17 +290,6 @@ public class Viewer extends FrameCommon {
 
     // RECORRER LISTA
     for (int i = 0; i < catList.getSize(); i++) {
-      // CREAR IMAGENES
-      for (int j = 0; j < catList.get(i).images.getSize(); j++) {
-        String path = catList.get(i).images.get(i);
-        String imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
-        File tmpFile = new File("tmp/view/" + imageName);
-
-        if (!tmpFile.exists()) {
-          new JPEGtoBMPImage(catList.get(i).images.get(j), "tmp/view/");
-        }
-      }
-
       // CREAR DIRECCION Y COLOR
       Color color = newRandomColor();
       String path = defSrc;
@@ -327,7 +316,6 @@ public class Viewer extends FrameCommon {
   public Viewer(String userName, Controller userController) {
     // CONFIGURAR VENTANA
     setLayout(new GridBagLayout());
-    setFocusable(true);
     setSize(750, 606);
 
     // ====== EVENTOS =======

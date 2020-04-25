@@ -87,6 +87,20 @@ public class Controller {
       // CREAR ARCHIVO
       createSerializable(users);
     }
+
+    // CREAR IMAGENES
+    DoublyLinkedList<Category> catList = currentUser.getCategoryList();
+    for (int i = 0; i < catList.getSize(); i++) {
+      for (int j = 0; j < catList.get(i).images.getSize(); j++) {
+        String path = catList.get(i).images.get(i);
+        String imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+        File tmpFile = new File("tmp/view/" + imageName);
+
+        if (!tmpFile.exists()) {
+          new JPEGtoBMPImage(catList.get(i).images.get(j), "tmp/view/");
+        }
+      }
+    }
   }
 
   // OBTENER LISTA

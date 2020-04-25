@@ -8,13 +8,14 @@ import javax.swing.border.EmptyBorder;
 
 class Button extends JButton {
   private static final long serialVersionUID = 1L;
+  public JLabel btnText;
 
   private void setProperties(String text) {
     // LAYOUT
     setLayout(new GridLayout(1, 1));
 
     // TEXTO
-    JLabel btnText = new JLabel(text);
+    btnText = new JLabel(text);
     btnText.setFont(new Font("Roboto", Font.BOLD, 15));
     btnText.setForeground(Color.white);
     btnText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -29,6 +30,16 @@ class Button extends JButton {
 
     // AGREGAR TEXTO
     add(btnText);
+  }
+
+  // CAMBIAR FUENTE
+  public void setLabelFont(Font lblFont) {
+    btnText.setFont(lblFont);
+  }
+
+  // OBTENER FUENTE
+  public Font getLabelFont() {
+    return btnText.getFont();
   }
 
   // CONSTRUCTORES

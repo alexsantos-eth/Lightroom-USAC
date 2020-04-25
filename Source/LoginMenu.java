@@ -5,22 +5,28 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-// EVENTO DE ABRIR EDITOR
-class editorListener implements ActionListener {
-  public void actionPerformed(ActionEvent actionEvent) {
-    System.out.println("Selected: " + actionEvent.getActionCommand());
-  }
-}
-
-// ABRIR CONVERTIDOR
-class converterListener implements ActionListener {
-  public void actionPerformed(ActionEvent actionEvent) {
-    System.out.println("Selected: " + actionEvent.getActionCommand());
-  }
-}
-
 public class LoginMenu extends FrameCommon {
   private static final long serialVersionUID = 1L;
+
+  private void createController(int type, Input userInput) {
+    // OBTENER NOMBRE
+    String name = userInput.getTextField().getText();
+
+    // VERIFICAR SI INGRESO SU NOMBRE
+    if (name.equals("Nombre de usuario") || name.length() == 0)
+      JOptionPane.showMessageDialog(null, "Debes ingresar primero tu nombre de usuario", "Error al autenticar",
+          JOptionPane.ERROR_MESSAGE);
+    else {
+      // CREAR CONTROLADOR
+      Controller userController = new Controller(name);
+
+      if (type == 0)
+        new Viewer(name, userController);
+      else if (type == 1) {
+        new Editor(name, userController);
+      }
+    }
+  }
 
   public LoginMenu() {
     // CONFIGURAR VENTANA
@@ -28,14 +34,37 @@ public class LoginMenu extends FrameCommon {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new GridBagLayout());
 
-    // LOCALES
-    GridBagConstraints c = new GridBagConstraints();
-    ActionListener editorAction = new editorListener();
-    ActionListener converterAction = new editorListener();
-
     // POSICION
+    GridBagConstraints c = new GridBagConstraints();
     c.insets = new Insets(12, 0, 0, 0);
     int margin = 70;
+
+    // COMPONENTES PRIMITIVOS
+    Input userInput = new Input("BIBLIOTECA (USAC VIEWER)", "Nombre de usuario", 300, 20);
+    Label title = new Label("MENU PRINCIPAL");
+
+    // BOTON DE EDITOR
+    Button editorBtn = new Button("EDITOR", 220, 50, Globals.grayBlue);
+
+    // BOTON DE CONVERTIDOR
+    Button converterBtn = new Button("CONVERTIDOR", 220 - (margin / 2), 50, Globals.grayBlue);
+
+    // BOTON DE INGRESAR
+    Button login = new Button("INGRESAR", 300, 50);
+
+    // CREAR VISOR
+    ActionListener viewerListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        createController(0, userInput);
+      }
+    };
+
+    // CREAR EDITOR
+    ActionListener editorListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        createController(1, userInput);
+      }
+    };
 
     // BARRA DE MENU
     JMenuBar menuBar = new JMenuBar();
@@ -45,14 +74,14 @@ public class LoginMenu extends FrameCommon {
     JMenuItem editorMenu = new JMenuItem("Editor", new ImageIcon("../Source/assets/editor-icon.png"));
     editorMenu.setMnemonic(KeyEvent.VK_E);
     editorMenu.setToolTipText("Ingresar al editor");
-    editorMenu.addActionListener(editorAction);
+    editorMenu.addActionListener(editorListener);
     editorMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
 
     // MENU DE CONVERTIDOR
     JMenuItem converterMenu = new JMenuItem("Convertidor", new ImageIcon("../Source/assets/converter-icon.png"));
     converterMenu.setMnemonic(KeyEvent.VK_T);
     converterMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK));
-    converterMenu.addActionListener(converterAction);
+    // converterMenu.addActionListener(converterAction);
     converterMenu.setToolTipText("Ingresar al convertidor");
 
     // BOTON DE INGRESAR
@@ -80,27 +109,13 @@ public class LoginMenu extends FrameCommon {
     btnMenuPanel.setLayout(new FlowLayout());
     btnMenuPanel.setBorder(new EmptyBorder(0, (margin / 2), 0, 0));
 
-    // COMPONENTES PRIMITIVOS
-    Input userInput = new Input("BIBLIOTECA (USAC VIEWER)", "Nombre de usuario", 300, 20);
-    Label title = new Label("MENU PRINCIPAL");
+    // BOTON DE INGRESAR
+    login.addActionListener(viewerListener);
 
     // BOTON DE EDITOR
-    Button editorBtn = new Button("EDITOR", 220, 50, Globals.grayBlue);
-    editorBtn.addActionListener(editorAction);
-
-    // BOTON DE CONVERTIDOR
-    Button converterBtn = new Button("CONVERTIDOR", 220 - (margin / 2), 50, Globals.grayBlue);
-    converterBtn.addActionListener(converterAction);
+    editorBtn.addActionListener(editorListener);
 
     // BOTON DE INGRESAR
-    Button login = new Button("INGRESAR", 300, 50);
-    login.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent actionEvent) {
-        String name = userInput.getTextField().getText();
-        Controller userController = new Controller(name);
-        new Viewer(name, userController);
-      }
-    });
 
     // ASIGNAR PANEL DE BOTONES
     btnMenuPanel.add(converterBtn);
