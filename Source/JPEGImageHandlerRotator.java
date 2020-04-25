@@ -106,6 +106,9 @@ public class JPEGImageHandlerRotator extends ImageHandler {
     bitmap = Image.toByteArray(newBMP);
     width = Image.getWidth(bitmap);
     height = Image.getHeight(bitmap);
+
+    // BORRAR BMP
+    newBMP.delete();
   }
 
   @Override

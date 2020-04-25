@@ -35,9 +35,7 @@ public class JPEGtoBMPImage {
 
   public JPEGtoBMPImage(String path, String relPath) {
     // IMAGEN DE SALIDA
-    String originalPath = path.replaceAll("\\\\", "/");
-    String outputName = relPath
-        + originalPath.substring(originalPath.lastIndexOf("/") + 1, originalPath.lastIndexOf(".")) + ".bmp";
+    String outputName = relPath + Image.getName(path) + ".bmp";
 
     // GENERAR ARCHIVOS
     genFiles(path, outputName, true);
@@ -58,4 +56,13 @@ public class JPEGtoBMPImage {
     // GENERAR ARCHIVOS
     genFiles(path, outputName, temporal);
   }
+
+  public JPEGtoBMPImage(String path, String relPath, String prefix) {
+    // IMAGEN DE SALIDA
+    String outputName = relPath + prefix + Image.getName(path) + ".bmp";
+
+    // GENERAR ARCHIVOS
+    genFiles(path, outputName, true);
+  }
+
 }

@@ -95,8 +95,9 @@ public class Image extends JEditorPane {
   }
 
   // OBTENER NOMBRE DE IMAGEN
-  public static String getName(String path) {
-    return path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+  public static String getName(String nPath) {
+    String replaced = nPath.replaceAll("\\\\", "/");
+    return replaced.substring(replaced.lastIndexOf("/") + 1, replaced.lastIndexOf("."));
   }
 
   // OBTENER ANCHO DE BITMAP

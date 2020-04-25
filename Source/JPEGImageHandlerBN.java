@@ -73,6 +73,9 @@ public class JPEGImageHandlerBN extends ImageHandler {
 
     // OBTENER MAPA
     bitmap = Image.toByteArray(newBMP);
+
+    // BORRAR BMP
+    newBMP.delete();
   }
 
   @Override

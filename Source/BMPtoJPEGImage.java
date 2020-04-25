@@ -32,9 +32,15 @@ public class BMPtoJPEGImage {
 
   public BMPtoJPEGImage(String path, String relPath) {
     // IMAGEN DE SALIDA
-    String originalPath = path.replaceAll("\\\\", "/");
-    String outputName = relPath
-        + originalPath.substring(originalPath.lastIndexOf("/") + 1, originalPath.lastIndexOf(".")) + ".jpg";
+    String outputName = relPath + Image.getName(path) + ".jpg";
+
+    // GENERAR ARCHIVOS
+    genFiles(path, outputName, true);
+  }
+
+  public BMPtoJPEGImage(String path, String relPath, String prefix) {
+    // IMAGEN DE SALIDA
+    String outputName = relPath + prefix + Image.getName(path) + ".jpg";
 
     // GENERAR ARCHIVOS
     genFiles(path, outputName, true);
