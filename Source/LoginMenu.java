@@ -26,8 +26,10 @@ public class LoginMenu extends FrameCommon {
       // CREAR CONTROLADOR
       Controller userController = new Controller(name);
       new Editor(name, userController);
-    } else if (type == 2)
-      new Converter();
+    } else if (type == 2) {
+      Controller usersController = new Controller();
+      new Converter(usersController);
+    }
 
   }
 
@@ -125,7 +127,7 @@ public class LoginMenu extends FrameCommon {
     // BOTON DE EDITOR
     editorBtn.addActionListener(editorListener);
 
-    // BOTON DE CONVERSOR
+    // BOTON DE CONVERTIR
     converterBtn.addActionListener(converterListener);
 
     // ASIGNAR PANEL DE BOTONES

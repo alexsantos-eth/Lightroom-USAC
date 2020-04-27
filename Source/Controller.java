@@ -57,10 +57,8 @@ public class Controller {
     }
   }
 
-  public Controller(String name) {
-    // OBTENER LISTA
-    LinkedList<User> userList = readSerializable();
-
+  // CREAR LISTA NUEVA
+  private void setData(LinkedList<User> userList, String name) {
     // VERIFICAR SI EXISTEN USUARIOS
     if (userList != null && userList.getSize() > 0) {
       // ASIGNAR LISTA
@@ -108,6 +106,24 @@ public class Controller {
     }
   }
 
+  // LISTA CON USUARIO
+  public Controller(String name) {
+    // OBTENER LISTA
+    LinkedList<User> userList = readSerializable();
+
+    // ASIGNAR DATOS
+    setData(userList, name);
+  }
+
+  // LISTA NORMAL
+  public Controller() {
+    // OBTENER LISTA
+    LinkedList<User> userList = readSerializable();
+
+    // ASIGNAR LISTA
+    this.users = userList;
+  }
+
   // OBTENER LISTA
   public Boolean getUser(String name) {
     // USUARIO NUEVO
@@ -143,5 +159,10 @@ public class Controller {
   // OBTENER USUARIO ACTUAL
   public User getData() {
     return currentUser;
+  }
+
+  // OBTENER LISTA DE USUARIOS
+  public LinkedList<User> getUsers() {
+    return users;
   }
 }
