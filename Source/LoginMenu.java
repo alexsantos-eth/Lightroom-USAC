@@ -12,20 +12,23 @@ public class LoginMenu extends FrameCommon {
     // OBTENER NOMBRE
     String name = userInput.getTextField().getText();
 
-    // VERIFICAR SI INGRESO SU NOMBRE
-    if (name.equals("Nombre de usuario") || name.length() == 0)
-      JOptionPane.showMessageDialog(null, "Debes ingresar primero tu nombre de usuario", "Error al autenticar",
-          JOptionPane.ERROR_MESSAGE);
-    else {
+    if (type == 0) {
+      // VERIFICAR SI INGRESO SU NOMBRE
+      if (name.equals("Nombre de usuario") || name.length() == 0)
+        JOptionPane.showMessageDialog(null, "Debes ingresar primero tu nombre de usuario", "Error al autenticar",
+            JOptionPane.ERROR_MESSAGE);
+      else {
+        // CREAR CONTROLADOR
+        Controller userController = new Controller(name);
+        new Viewer(name, userController);
+      }
+    } else if (type == 1) {
       // CREAR CONTROLADOR
       Controller userController = new Controller(name);
+      new Editor(name, userController);
+    } else if (type == 2)
+      new Converter();
 
-      if (type == 0)
-        new Viewer(name, userController);
-      else if (type == 1) {
-        new Editor(name, userController);
-      }
-    }
   }
 
   public LoginMenu() {
@@ -66,6 +69,13 @@ public class LoginMenu extends FrameCommon {
       }
     };
 
+    // CREAR CONVERTIDOR
+    ActionListener converterListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        createController(2, userInput);
+      }
+    };
+
     // BARRA DE MENU
     JMenuBar menuBar = new JMenuBar();
     JMenu toolsMenu = new JMenu("Herramientas");
@@ -81,7 +91,7 @@ public class LoginMenu extends FrameCommon {
     JMenuItem converterMenu = new JMenuItem("Convertidor", new ImageIcon("../Source/assets/converter-icon.png"));
     converterMenu.setMnemonic(KeyEvent.VK_T);
     converterMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK));
-    // converterMenu.addActionListener(converterAction);
+    converterMenu.addActionListener(converterListener);
     converterMenu.setToolTipText("Ingresar al convertidor");
 
     // BOTON DE INGRESAR
@@ -115,7 +125,8 @@ public class LoginMenu extends FrameCommon {
     // BOTON DE EDITOR
     editorBtn.addActionListener(editorListener);
 
-    // BOTON DE INGRESAR
+    // BOTON DE CONVERSOR
+    converterBtn.addActionListener(converterListener);
 
     // ASIGNAR PANEL DE BOTONES
     btnMenuPanel.add(converterBtn);

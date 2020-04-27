@@ -6,7 +6,7 @@ import java.awt.event.*;
 public class EditorMenu extends JMenuBar {
   private static final long serialVersionUID = 1L;
   private JMenu toolsMenu;
-  public JMenuItem copyItem, convertItem, rotateItem, filterItem, bnItem;
+  public JMenuItem allItem, copyItem, convertItem, rotateItem, filterItem, bnItem;
 
   public EditorMenu() {
     // MENUS PRINCIPALES
@@ -20,9 +20,9 @@ public class EditorMenu extends JMenuBar {
 
     // MENU DE CERRAR
     convertItem = new JMenuItem("Convertir imagen");
-    convertItem.setMnemonic(KeyEvent.VK_A);
+    convertItem.setMnemonic(KeyEvent.VK_T);
     convertItem.setToolTipText("Convertir de JPEG a BMP y viceversa");
-    convertItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+    convertItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK));
 
     // CREAR CATEGORIA
     rotateItem = new JMenuItem("Rotar Imagen");
@@ -42,7 +42,14 @@ public class EditorMenu extends JMenuBar {
     bnItem.setToolTipText("Filtro Blanco y Negro");
     bnItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK));
 
+    // GUARDAR ESPACIO DE TRABAJO
+    allItem = new JMenuItem("Convertir todo");
+    allItem.setMnemonic(KeyEvent.VK_A);
+    allItem.setToolTipText("Aplica todos los filtros");
+    allItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+
     // AGREGAR A MENU DE ARCHIVO
+    toolsMenu.add(allItem);
     toolsMenu.add(copyItem);
     toolsMenu.add(convertItem);
     toolsMenu.add(rotateItem);

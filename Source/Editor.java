@@ -8,6 +8,12 @@ public class Editor extends FrameCommon {
   private static final long serialVersionUID = 1L;
   private String currentPath;
 
+  // MENSAJE DE SALIDA
+  private void showMessage(String action) {
+    JOptionPane.showMessageDialog(null, "Tu imagen se ha " + action + " exitosamente.", "Proceso terminado",
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
   // HANDLER DE COPIA
   private void runCopy() {
     if (currentPath != null) {
@@ -70,6 +76,15 @@ public class Editor extends FrameCommon {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  // HANDLER PARA TODOS
+  private void runAll() {
+    runCopy();
+    runConvert();
+    runFilter();
+    runRotate();
+    runBN();
   }
 
   public Editor(String userName, Controller userController) {
@@ -146,6 +161,7 @@ public class Editor extends FrameCommon {
     ActionListener runCopyListener = new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         runCopy();
+        showMessage("copiado");
       }
     };
 
@@ -153,6 +169,7 @@ public class Editor extends FrameCommon {
     ActionListener runConvertListener = new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         runConvert();
+        showMessage("convertido");
       }
     };
 
@@ -160,6 +177,7 @@ public class Editor extends FrameCommon {
     ActionListener runFilterListener = new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         runFilter();
+        showMessage("filtrado");
       }
     };
 
@@ -167,6 +185,7 @@ public class Editor extends FrameCommon {
     ActionListener runRotateListener = new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         runRotate();
+        showMessage("rotado");
       }
     };
 
@@ -174,6 +193,15 @@ public class Editor extends FrameCommon {
     ActionListener runBNListener = new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         runBN();
+        showMessage("filtrado con blanco y negro");
+      }
+    };
+
+    // LISTENER DE EDITAR
+    ActionListener runAllListener = new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        runAll();
+        showMessage("procesado");
       }
     };
 
@@ -203,8 +231,9 @@ public class Editor extends FrameCommon {
     bnBtn.addActionListener(runBNListener);
 
     // BOTON DE EDITAR
-    Button convertBtn = new Button("Editar", 300, 79);
+    Button convertBtn = new Button("Generar Todo", 300, 79);
     convertBtn.setLabelFont(convertBtn.getFont().deriveFont(30f).deriveFont(Font.BOLD));
+    convertBtn.addActionListener(runAllListener);
 
     // MENU
     EditorMenu menubar = new EditorMenu();
@@ -215,6 +244,7 @@ public class Editor extends FrameCommon {
     menubar.filterItem.addActionListener(runFilterListener);
     menubar.rotateItem.addActionListener(runRotateListener);
     menubar.bnItem.addActionListener(runBNListener);
+    menubar.allItem.addActionListener(runAllListener);
 
     // AGREGAR BOTON DE COPIAR
     btnC.weighty = 7;
