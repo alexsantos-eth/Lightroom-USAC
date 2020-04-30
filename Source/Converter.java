@@ -23,6 +23,7 @@ public class Converter extends FrameCommon {
     JPanel categoryPanel = new JPanel();
     categoryPanel.setLayout(new FlowLayout());
     categoryPanel.setPreferredSize(new Dimension(400, 70));
+    categoryPanel.setSize(400, 70);
 
     JPanel processSelection = new JPanel();
     processSelection.setLayout(new FlowLayout());
@@ -35,6 +36,7 @@ public class Converter extends FrameCommon {
 
     JScrollPane scrollPane = new JScrollPane(processPane);
     scrollPane.setPreferredSize(new Dimension(400, 100));
+    scrollPane.setSize(400, 100);
     scrollPane.setBorder(new EmptyBorder(0, 50, 0, 50));
     scrollPane.setViewportBorder(null);
 
@@ -113,12 +115,12 @@ public class Converter extends FrameCommon {
     textArea.setBorder(new EmptyBorder(10, 50, 10, 50));
     textArea.setBackground(new Color(50, 50, 50));
 
-    // System.setOut(new PrintStream(new OutputStream() {
-    // @Override
-    // public void write(int b) throws IOException {
-    // textArea.append(String.valueOf((char) b));
-    // }
-    // }));
+    System.setOut(new PrintStream(new OutputStream() {
+      @Override
+      public void write(int b) throws IOException {
+        textArea.append(String.valueOf((char) b));
+      }
+    }));
 
     // AGREGAR
     categoryPanel.add(userLabel);
