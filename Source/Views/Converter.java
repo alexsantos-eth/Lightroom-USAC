@@ -312,7 +312,7 @@ public class Converter extends FrameCommon {
     progress = new JProgressBar(0, 0);
 
     // AJUSTAR DIMENSION
-    setSize(525, 450);
+    setSize(525, 445);
     setLayout(null);
 
     // MENU

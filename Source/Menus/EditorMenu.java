@@ -5,12 +5,13 @@ import java.awt.event.*;
 
 public class EditorMenu extends JMenuBar {
   private static final long serialVersionUID = 1L;
-  private JMenu toolsMenu;
-  public JMenuItem allItem, copyItem, convertItem, rotateItem, filterItem, bnItem;
+  private JMenu toolsMenu, fileMenu;
+  public JMenuItem openFile, copyItem, convertItem, rotateItem, filterItem, bnItem;
 
-  public EditorMenu() {
+  public void setProperties() {
     // MENUS PRINCIPALES
     toolsMenu = new JMenu("Imagen");
+    fileMenu = new JMenu("Archivo");
 
     // MENU DE ABRIR
     copyItem = new JMenuItem("Copiar");
@@ -43,20 +44,35 @@ public class EditorMenu extends JMenuBar {
     bnItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK));
 
     // GUARDAR ESPACIO DE TRABAJO
-    allItem = new JMenuItem("Convertir todo");
-    allItem.setMnemonic(KeyEvent.VK_A);
-    allItem.setToolTipText("Aplica todos los filtros");
-    allItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+    openFile = new JMenuItem("Abrir");
+    openFile.setMnemonic(KeyEvent.VK_O);
+    openFile.setToolTipText("Aplica todos los filtros");
+    openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
+  }
 
+  public void addItems() {
     // AGREGAR A MENU DE ARCHIVO
-    toolsMenu.add(allItem);
     toolsMenu.add(copyItem);
     toolsMenu.add(convertItem);
     toolsMenu.add(rotateItem);
     toolsMenu.add(filterItem);
     toolsMenu.add(bnItem);
 
+  }
+
+  public EditorMenu(Boolean openSection) {
+    // CREAR MENUS
+    setProperties();
+
+    // AGREGAR SUBMENUS
+    if (openSection)
+      fileMenu.add(openFile);
+    addItems();
+
     // AGREGAR A MENUBAR
+    if (openSection)
+      add(fileMenu);
+
     add(toolsMenu);
   }
 }

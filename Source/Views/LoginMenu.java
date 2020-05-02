@@ -28,11 +28,9 @@ public class LoginMenu extends FrameCommon {
         Controller userController = new Controller(name);
         new Viewer(name, userController);
       }
-    } else if (type == 1) {
-      // CREAR CONTROLADOR
-      Controller userController = new Controller(name);
-      new Editor(name, userController);
-    } else if (type == 2) {
+    } else if (type == 1)
+      new Editor();
+    else if (type == 2) {
       Controller usersController = new Controller();
       new Converter(usersController);
     }
