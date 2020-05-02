@@ -49,6 +49,13 @@ class Button extends JButton {
   }
 
   // CONSTRUCTORES
+  public Button(String text, Font font) {
+    setProperties(text);
+    setBackground(Globals.blue);
+    setLabelFont(font);
+  }
+
+  // CONSTRUCTORES
   public Button(String text, Color background) {
     setProperties(text);
     setBackground(background);
