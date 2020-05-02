@@ -10,22 +10,22 @@ public class EditorMenu extends JMenuBar {
 
   public EditorMenu() {
     // MENUS PRINCIPALES
-    toolsMenu = new JMenu("Archivo");
+    toolsMenu = new JMenu("Imagen");
 
     // MENU DE ABRIR
-    copyItem = new JMenuItem("Copiar imagen");
+    copyItem = new JMenuItem("Copiar");
     copyItem.setMnemonic(KeyEvent.VK_C);
     copyItem.setToolTipText("Copiar jpeg");
     copyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
 
     // MENU DE CERRAR
-    convertItem = new JMenuItem("Convertir imagen");
+    convertItem = new JMenuItem("Convertir");
     convertItem.setMnemonic(KeyEvent.VK_T);
     convertItem.setToolTipText("Convertir de JPEG a BMP y viceversa");
     convertItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK));
 
     // CREAR CATEGORIA
-    rotateItem = new JMenuItem("Rotar Imagen");
+    rotateItem = new JMenuItem("Rotar");
     rotateItem.setMnemonic(KeyEvent.VK_R);
     rotateItem.setToolTipText("Rotar horizontal y vertical");
     rotateItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));

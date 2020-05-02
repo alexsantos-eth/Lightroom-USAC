@@ -123,11 +123,6 @@ public class Image extends JEditorPane {
         int G = (byteArry[i + 2] & 0xFF);
         int R = (byteArry[i + 3] & 0xFF);
 
-        // LIMITAR VALORES PARA LOS FILTROS EN PROXIMA FASE
-        B = B > 255 ? 255 : B < 0 ? 0 : B;
-        G = G > 255 ? 255 : G < 0 ? 0 : G;
-        R = R > 255 ? 255 : R < 0 ? 0 : R;
-
         // AGREGAR COLOR Y DIBUJAR
         g.setColor(new Color(R, G, B));
         g.drawLine(x, y, x, y);

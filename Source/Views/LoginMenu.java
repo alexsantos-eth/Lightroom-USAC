@@ -4,6 +4,7 @@ import Source.Utils.*;
 import Source.Utils.Button;
 import Source.Utils.Label;
 import Source.Controllers.*;
+import Source.Menus.LoginMenuBar;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -84,22 +85,7 @@ public class LoginMenu extends FrameCommon {
     };
 
     // BARRA DE MENU
-    JMenuBar menuBar = new JMenuBar();
-    JMenu toolsMenu = new JMenu("Herramientas");
-
-    // MENU DE EDITOR
-    JMenuItem editorMenu = new JMenuItem("Editor", new ImageIcon("../Source/assets/editor-icon.png"));
-    editorMenu.setMnemonic(KeyEvent.VK_E);
-    editorMenu.setToolTipText("Ingresar al editor");
-    editorMenu.addActionListener(editorListener);
-    editorMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
-
-    // MENU DE CONVERTIDOR
-    JMenuItem converterMenu = new JMenuItem("Convertidor", new ImageIcon("../Source/assets/converter-icon.png"));
-    converterMenu.setMnemonic(KeyEvent.VK_T);
-    converterMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK));
-    converterMenu.addActionListener(converterListener);
-    converterMenu.setToolTipText("Ingresar al convertidor");
+    LoginMenuBar menuBar = new LoginMenuBar();
 
     // BOTON DE INGRESAR
     JPanel btnContainer = new JPanel();
@@ -130,9 +116,11 @@ public class LoginMenu extends FrameCommon {
     login.addActionListener(viewerListener);
 
     // BOTON DE EDITOR
+    menuBar.editorMenu.addActionListener(editorListener);
     editorBtn.addActionListener(editorListener);
 
     // BOTON DE CONVERTIR
+    menuBar.converterMenu.addActionListener(converterListener);
     converterBtn.addActionListener(converterListener);
 
     // ASIGNAR PANEL DE BOTONES
@@ -150,11 +138,6 @@ public class LoginMenu extends FrameCommon {
     // ASIGNAR PANELES DE MENU
     menuContainer.add(titlePanel);
     menuContainer.add(btnMenuPanel);
-
-    // ASIGNAR BARRA DE MENU
-    toolsMenu.add(editorMenu);
-    toolsMenu.add(converterMenu);
-    menuBar.add(toolsMenu);
 
     // AGREGAR PANELES
     add(loginContainer, c);

@@ -1,6 +1,7 @@
 package Source.Views;
 
 import Source.Handlers.*;
+import Source.Menus.ConverterMenu;
 import Source.Utils.*;
 import Source.Structure.*;
 import Source.Controllers.*;
@@ -55,7 +56,7 @@ public class Converter extends FrameCommon {
   private JRadioButton thread;
   private JRadioButton fifo;
   private JRadioButton lifo;
-  private JMenuBar menubar;
+  private ConverterMenu menubar;
   private JTextArea console;
   private JScrollPane consoleScroll;
   private JProgressBar progress;
@@ -260,17 +261,7 @@ public class Converter extends FrameCommon {
     categoryNum = 0;
 
     // MENU
-    JMenu archivoMenu = new JMenu("Archivo");
-    JMenuItem copiarItem = new JMenuItem("Copiar");
-    archivoMenu.add(copiarItem);
-    JMenuItem filtrosItem = new JMenuItem("Filtros");
-    archivoMenu.add(filtrosItem);
-    JMenuItem rotarItem = new JMenuItem("Rotar");
-    archivoMenu.add(rotarItem);
-    JMenuItem blanco_y_negroItem = new JMenuItem("Blanco y Negro");
-    archivoMenu.add(blanco_y_negroItem);
-    JMenuItem convertir_jpeg_bmpItem = new JMenuItem("Convertir JPEG/BMP");
-    archivoMenu.add(convertir_jpeg_bmpItem);
+    menubar = new ConverterMenu();
 
     // CONSTRUIR COMPONENTES
     // USUARIOS
@@ -299,11 +290,7 @@ public class Converter extends FrameCommon {
     fifo = new JRadioButton("Ejecutar en Secualcial FIFO");
     lifo = new JRadioButton("Ejecutar secuencial LIFO");
 
-    // MENU
-    menubar = new JMenuBar();
-
     // AGREGAR SUB COMPONENTES
-    menubar.add(archivoMenu);
     radios.add(thread);
     radios.add(fifo);
     radios.add(lifo);
@@ -328,6 +315,9 @@ public class Converter extends FrameCommon {
     setSize(525, 450);
     setLayout(null);
 
+    // MENU
+    setJMenuBar(menubar);
+
     // AGREGAR COMPONENTES
     add(usersLabel);
     add(usersBox);
@@ -343,7 +333,6 @@ public class Converter extends FrameCommon {
     add(thread);
     add(fifo);
     add(lifo);
-    add(menubar);
     add(progress);
     add(consoleScroll);
 
@@ -351,25 +340,24 @@ public class Converter extends FrameCommon {
     thread.setSelected(true);
 
     // AGREGAR POSICIONES DE COMPONENTES
-    usersLabel.setBounds(10, 25, 60, 25);
-    usersBox.setBounds(80, 25, 100, 25);
-    categoryLabel.setBounds(200, 25, 70, 25);
-    categoryBox.setBounds(285, 25, 100, 25);
-    categoryList.setBounds(10, 60, 500, 60);
-    categoryScroll.setBounds(10, 60, 500, 60);
-    bnBtn.setBounds(110, 155, 100, 35);
-    copyBtn.setBounds(10, 120, 100, 35);
-    filterBtn.setBounds(110, 120, 100, 35);
-    convertBtn.setBounds(210, 120, 115, 70);
-    rotateBtn.setBounds(10, 155, 100, 35);
-    addBtn.setBounds(405, 25, 105, 25);
-    thread.setBounds(330, 120, 140, 25);
-    fifo.setBounds(330, 165, 180, 25);
-    lifo.setBounds(330, 140, 165, 30);
-    menubar.setBounds(0, 0, 520, 20);
-    console.setBounds(10, 230, 498, 180);
-    consoleScroll.setBounds(10, 230, 498, 180);
-    progress.setBounds(10, 200, 498, 25);
+    usersLabel.setBounds(10, 10, 60, 25);
+    usersBox.setBounds(80, 10, 100, 25);
+    categoryLabel.setBounds(200, 10, 70, 25);
+    categoryBox.setBounds(285, 10, 100, 25);
+    categoryList.setBounds(10, 45, 500, 60);
+    categoryScroll.setBounds(10, 45, 500, 60);
+    bnBtn.setBounds(110, 140, 100, 35);
+    copyBtn.setBounds(10, 105, 100, 35);
+    filterBtn.setBounds(110, 105, 100, 35);
+    convertBtn.setBounds(210, 105, 115, 70);
+    rotateBtn.setBounds(10, 140, 100, 35);
+    addBtn.setBounds(405, 10, 105, 25);
+    thread.setBounds(330, 105, 140, 25);
+    fifo.setBounds(330, 150, 180, 25);
+    lifo.setBounds(330, 125, 165, 30);
+    console.setBounds(10, 215, 498, 180);
+    consoleScroll.setBounds(10, 205, 498, 180);
+    progress.setBounds(10, 185, 498, 25);
 
     // EVENTOS
     setAddListener();
