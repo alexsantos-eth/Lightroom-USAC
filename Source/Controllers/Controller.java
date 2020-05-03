@@ -108,6 +108,21 @@ public class Controller {
     }
   }
 
+  // CREAR IMAGENES
+  public static void createImage(String path) {
+    String imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+    File tmpFile = new File("tmp/view/" + imageName);
+
+    if (!tmpFile.exists()) {
+      ImageHandler convert = new JPEGtoBMPImage(path, "tmp/view/");
+      try {
+        JPEGHandler.runHandler(convert);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
   // LISTA CON USUARIO
   public Controller(String name) {
     // OBTENER LISTA
