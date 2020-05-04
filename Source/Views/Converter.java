@@ -54,8 +54,8 @@ public class Converter extends FrameCommon {
   private JButton rotateBtn;
   private JButton addBtn;
   private JRadioButton thread;
-  private JRadioButton fifo;
   private JRadioButton lifo;
+  private JRadioButton fifo;
   private ConverterMenu menubar;
   private JTextArea console;
   private JScrollPane consoleScroll;
@@ -193,7 +193,9 @@ public class Converter extends FrameCommon {
   // VERIFICACIONES Y REINICIOS
   private void btnsPerformed(int index) {
     // MODO DE EJECUCION
-    int mode = thread.isSelected() ? 0 : fifo.isSelected() ? 1 : lifo.isSelected() ? 2 : -1;
+    int mode = thread.isSelected() ? 0 : lifo.isSelected() ? 1 : fifo.isSelected() ? 2 : -1;
+    Queue<ImageHandler> hQueue = new Queue<ImageHandler>();
+    Stack<ImageHandler> hStack = new Stack<ImageHandler>();
 
     // MODELO DE LISTA
     DefaultListModel<String> model = (DefaultListModel<String>) categoryList.getModel();
@@ -212,15 +214,60 @@ public class Converter extends FrameCommon {
         if (mode == 0)
           // CREAR HILO
           new ProcessThread(handler, progress).start();
+
+        else if (mode == 1)
+          // ASIGNAR PILA
+          hStack.push(handler);
+
+        else if (mode == 2)
+          // ASIGNAR COLA
+          hQueue.push(handler);
       }
 
       // EJECUTAR COLAS/PILAS
+      if (mode == 1)
+        executeStack(hStack);
+
+      else if (mode == 2)
+        executeQueue(hQueue);
 
       // REINICIAR VALORES
       model.removeAllElements();
       categoryNum = 0;
     }
 
+  }
+
+  // COLAS
+  private void executeQueue(Queue<ImageHandler> hQueue) {
+    // LONGITUD
+    for (int i = 0, length = hQueue.getSize(); i < length; i++) {
+      try {
+        // CORRER HANDLER
+        JPEGHandler.runHandler(hQueue.pop());
+
+        // AUMENTAR BARRA
+        progress.setValue(progress.getValue() + 1);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  // PILAS
+  private void executeStack(Stack<ImageHandler> hStack) {
+    // LONGITUD
+    for (int i = 0, length = hStack.getSize(); i < length; i++) {
+      try {
+        // CORRER HANDLER
+        JPEGHandler.runHandler(hStack.pop());
+
+        // AUMENTAR BARRA
+        progress.setValue(progress.getValue() + 1);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   // ACCION DE CONVERTIR
@@ -287,13 +334,13 @@ public class Converter extends FrameCommon {
     // RADIO BOTONES
     radios = new ButtonGroup();
     thread = new JRadioButton("Ejecutar en paralelo");
-    fifo = new JRadioButton("Ejecutar en Secualcial FIFO");
     lifo = new JRadioButton("Ejecutar secuencial LIFO");
+    fifo = new JRadioButton("Ejecutar en Secualcial FIFO");
 
     // AGREGAR SUB COMPONENTES
     radios.add(thread);
-    radios.add(fifo);
     radios.add(lifo);
+    radios.add(fifo);
 
     // AGREGAR TEXTOS DE USUARIOS
     setUsers();
@@ -331,8 +378,8 @@ public class Converter extends FrameCommon {
     add(rotateBtn);
     add(addBtn);
     add(thread);
-    add(fifo);
     add(lifo);
+    add(fifo);
     add(progress);
     add(consoleScroll);
 

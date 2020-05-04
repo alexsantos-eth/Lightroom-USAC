@@ -213,10 +213,20 @@ public class Editor extends FrameCommon {
     selectBtn.addActionListener(addListener);
     removeBtn.addActionListener(removeListener);
     pathList.addListSelectionListener(selectListener);
+
+    menubar.convertItem.addActionListener(convertListener);
     convertBtn.addActionListener(convertListener);
+
+    menubar.filterItem.addActionListener(filterListener);
     filerBtn.addActionListener(filterListener);
+
+    menubar.copyItem.addActionListener(copyListener);
     copyBtn.addActionListener(copyListener);
+
+    menubar.rotateItem.addActionListener(rotateListener);
     rotateBtn.addActionListener(rotateListener);
+
+    menubar.bnItem.addActionListener(bnListener);
     bnBtn.addActionListener(bnListener);
   }
 
@@ -229,7 +239,7 @@ public class Editor extends FrameCommon {
     copyBtn = new JButton("Copiar imagen");
     rotateBtn = new JButton("Rotar V/H");
     bnBtn = new JButton("Blanco y Negro");
-    image = new Image("../Source/assets/imageBackground.jpg", 400, 400);
+    image = new Image("../Source/assets/imageBackground.jpg", 480, 400);
     pathList = new JList<String>(new DefaultListModel<String>());
     pathListScroll = new JScrollPane(pathList);
     menubar = new EditorMenu(true);
@@ -248,7 +258,7 @@ public class Editor extends FrameCommon {
     add(copyBtn);
     add(rotateBtn);
     add(bnBtn);
-    add(image);
+    add(image.getCPane());
     add(pathListScroll);
 
     // set component bounds (only needed by Absolute Positioning)
