@@ -53,6 +53,9 @@ public class Image extends JPanel {
 
     // ASIGNAR DIMENSION
     setPreferredSize(new Dimension(width, height));
+
+    // ACTUALIZAR
+    repaint();
   }
 
   // OBTENER PANEL
