@@ -2,8 +2,6 @@
 /* NO CAMBIE EL CODIGO DE ESTA CLASE */
 package Source.Handlers;
 
-import java.io.*;
-
 /**
  * Defines general characteristics of an Image Handler object. Image Handlers
  * are capable of reading bytes of an file, and also generate files. Abstract

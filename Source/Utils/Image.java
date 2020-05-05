@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
-public class Image extends JEditorPane {
+public class Image extends JPanel {
   // PROPIEDADES
   private static final long serialVersionUID = 1L;
   JScrollPane scrollPane;
@@ -16,11 +16,8 @@ public class Image extends JEditorPane {
   public Image(String src, int width, int height) {
     // VALORES INICIALES
     this.src = src.contains(".bmp") ? src : src.substring(0, src.lastIndexOf(".")) + ".bmp";
-    this.height = height;
-    this.width = width;
 
     // CONFIGURAR PANEL
-    setEditable(false);
     setOpaque(true);
 
     // AGREGAR SCROLL
@@ -55,10 +52,7 @@ public class Image extends JEditorPane {
     height = toInt(byteArry, 22);
 
     // ASIGNAR DIMENSION
-    setSize(width, height);
-
-    // DIBUJAR
-    repaint();
+    setPreferredSize(new Dimension(width, height));
   }
 
   // OBTENER PANEL
