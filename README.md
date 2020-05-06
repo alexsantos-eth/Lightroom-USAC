@@ -1,5 +1,6 @@
 <div align="center">
   <img src="./Source/assets/banner.jpg" alt="Banner"/>
+  <br/>
   <img src="https://img.shields.io/badge/version-1.0-yellow" alt="Version"/>
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="Version"/>
   <img src="https://img.shields.io/badge/build-passing-green" alt="Version"/>

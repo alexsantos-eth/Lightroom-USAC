@@ -1,0 +1,41 @@
+body {
+  --red: #F44336;
+  --pink: #E91E63;
+  --purple: #9C27B0;
+  --deepPurple: #673AB7;
+  --indigo: #3F51B5;
+  --blue: #2196F3;
+  --lightBlue: #03A9F4;
+  --cyan: #00BCD4;
+  --teal: #009688;
+  --green: #4CAF50;
+  --lightGreen: #8BC34A;
+  --lime: #CDDC39;
+  --yellow: #FFEB3B;
+  --amber: #FFC107;
+  --orange: #FF9800;
+  --deepOrange: #FF5722;
+  --brown: #795548;
+  --blueGray: #607D8B;
+  --containers: #fff;
+  --black: #333;
+  --white: #fff;
+  background: #ddd;
+  margin: 0;
+  font-family: 'Manrope', "Roboto", Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: 1000px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  user-select: none;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}

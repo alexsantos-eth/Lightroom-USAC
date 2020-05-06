@@ -1,0 +1,96 @@
+header {
+  transform-origin: center center;
+  width: 0;
+  transition: width 0.7s ease-in-out;
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+  overflow: hidden;
+}
+
+header>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: -2;
+  margin-left: -18%;
+  filter: blur(3px);
+}
+
+#headerContent::before {
+  content: '';
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #777, var(--blue));
+  z-index: -1;
+}
+
+#headerContent>svg {
+  position: absolute;
+  bottom: -20px;
+}
+
+#headerContent>#headerTexts {
+  position: absolute;
+  top: 20%;
+  left: 50px;
+  width: calc(100% - 100px);
+  background: red;
+}
+
+#headerContent>#headerTexts>img {
+  width: 500px;
+  position: absolute;
+  top: 70px;
+  left: -10%;
+}
+
+#headerContent>#headerTexts>h1 {
+  opacity: 0;
+  text-align: right;
+  font-size: 3.4em;
+  color: var(--white)!important;
+  font-weight: bold;
+  width: 500px;
+  position: absolute;
+  right: 60px;
+  top: 20px;
+  transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+#headerContent>#headerTexts>h1>p {
+  font-size: 0.45em;
+  opacity: 0.8;
+  line-height: 23px;
+  font-weight: normal;
+}
+
+#headerContent>#headerTexts>h1>button {
+  background: var(--amber)!important;
+  color: var(--white);
+  font-weight: bold;
+  height: 45px;
+  box-shadow: none;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 0px 30px;
+  font-size: 0.3em;
+}
+
+@keyframes nextAnim {
+  from {
+    left: 0px;
+  }
+  to {
+    left: 10px;
+  }
+}
+
+#headerContent>#headerTexts>h1>button>i {
+  animation: nextAnim 0.5s ease-in-out infinite;
+}
