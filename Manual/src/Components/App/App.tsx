@@ -11,12 +11,16 @@ import '../../Icons/style.css'
 // COMPONENTES
 import Navbar from "../Navbar/Navbar"
 import Header from '../Header/Header';
+import SubHeader from '../SubHeader/SubHeader';
+import Code from '../Code/Code';
 
 function App() {
   return (
     <>
       <Navbar />
       <Header />
+      <SubHeader />
+      <Code />
     </>
   );
 }

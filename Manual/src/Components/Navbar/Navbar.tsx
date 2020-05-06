@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
     // ANIMAR NAV
     setTimeout(() => {
       if (nav) {
-        nav.style.top = "20px";
+        nav.style.transform = "translate(-50%, 0)";
         nav.style.opacity = "1";
       }
     }, 1000);

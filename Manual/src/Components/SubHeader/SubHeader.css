@@ -1,0 +1,70 @@
+#secContent {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  background: var(--white);
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+}
+
+#screens {
+  width: 770px;
+  height: 400px;
+  position: relative;
+}
+
+#screens>img {
+  width: 350px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  position: absolute;
+  z-index: 1;
+}
+
+#screens>img:nth-child(1) {
+  width: 300px;
+  z-index: 2;
+  bottom: 40px;
+  left: 20px;
+}
+
+#screens>img:nth-child(2) {
+  top: 0;
+  right: -50px;
+}
+
+#screens>img:nth-child(3) {
+  top: -30px;
+  left: 0;
+}
+
+#secBanner {
+  padding: 40px;
+}
+
+#secBanner>h1 {
+  margin: 0;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: var(--black);
+}
+
+#secBanner>p {
+  margin-top: 10px;
+  color: var(--black);
+}
+
+#secBanner>button {
+  margin-top: 10px;
+  height: 40px;
+  padding: 0 30px;
+}
+
+#secMove {
+  position: absolute;
+  width: 350px;
+  top: 120px;
+  left: 260px;
+  z-index: 3;
+}

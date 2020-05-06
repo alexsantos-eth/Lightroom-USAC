@@ -3,9 +3,8 @@ header {
   width: 0;
   transition: width 0.7s ease-in-out;
   position: relative;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
-  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden
 }
 
 header>img {
@@ -33,6 +32,7 @@ header>img {
 #headerContent>svg {
   position: absolute;
   bottom: -20px;
+  transition: bottom 1s ease-in-out;
 }
 
 #headerContent>#headerTexts {
@@ -47,7 +47,9 @@ header>img {
   width: 500px;
   position: absolute;
   top: 70px;
+  z-index: 2;
   left: -10%;
+  transition: transform 0.5s ease-in-out;
 }
 
 #headerContent>#headerTexts>h1 {
@@ -56,11 +58,12 @@ header>img {
   font-size: 3.4em;
   color: var(--white)!important;
   font-weight: bold;
-  width: 500px;
+  width: 520px;
+  transform: translateX(-80px);
   position: absolute;
-  right: 60px;
+  right: 0px;
   top: 20px;
-  transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 #headerContent>#headerTexts>h1>p {
@@ -84,10 +87,10 @@ header>img {
 
 @keyframes nextAnim {
   from {
-    left: 0px;
+    transform: translateY(0);
   }
   to {
-    left: 10px;
+    transform: translateY(10px);
   }
 }
 

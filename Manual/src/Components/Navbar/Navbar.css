@@ -2,11 +2,11 @@ nav {
   box-shadow: none;
   width: 100%;
   position: absolute;
-  top: -100px;
+  top: 20px;
   opacity: 0;
-  transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -100%);
   background-color: transparent;
   max-width: 1000px;
   z-index: 100;

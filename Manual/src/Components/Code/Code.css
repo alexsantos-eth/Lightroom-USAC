@@ -1,0 +1,29 @@
+#manual {
+  position: relative;
+  z-index: 5;
+  margin-top: -30px;
+  background: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+}
+
+#manual>div {
+  padding-right: 50px;
+  text-align: right;
+  width: 420px;
+}
+
+#manual>div>h1 {
+  margin: 0;
+  color: var(--black);
+  font-size: 3em;
+}
+
+#manual>div>button {
+  margin-top: 10px;
+  height: 40px;
+  font-weight: bold;
+  padding: 0 30px;
+  background: var(--amber)!important;
+}
