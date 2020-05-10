@@ -33,8 +33,7 @@ public class Image extends JPanel {
   // ACTUALIZAR IMAGEN
   public void updateSrc(String path) {
     // OBTENER RUTA
-    imageName = path.replaceAll("\\\\", "/");
-    imageName = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf("."));
+    imageName = getName(path);
     this.src = path.contains(".bmp") ? path : "tmp/view/" + imageName + ".bmp";
 
     try {
@@ -46,10 +45,10 @@ public class Image extends JPanel {
     }
 
     // OBTENER ANCHO DEL BYTE 18-21
-    width = toInt(byteArry, 18);
+    width = getWidth(byteArry);
 
     // OBTENER ALTO DEL BYTE 22-25
-    height = toInt(byteArry, 22);
+    height = getHeight(byteArry);
 
     // ASIGNAR DIMENSION
     setPreferredSize(new Dimension(width, height));

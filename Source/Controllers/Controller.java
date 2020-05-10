@@ -2,6 +2,7 @@ package Source.Controllers;
 
 import Source.Structure.*;
 import Source.Handlers.*;
+import Source.Utils.*;
 import java.io.*;
 
 public class Controller {
@@ -90,27 +91,14 @@ public class Controller {
 
     // CREAR IMAGENES
     DoublyLinkedList<Category> catList = currentUser.getCategoryList();
-    for (int i = 0; i < catList.getSize(); i++) {
-      for (int j = 0; j < catList.get(i).images.getSize(); j++) {
-        String path = catList.get(i).images.get(i);
-        String imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
-        File tmpFile = new File("tmp/view/" + imageName);
-
-        if (!tmpFile.exists()) {
-          ImageHandler convert = new JPEGtoBMPImage(catList.get(i).images.get(j), "tmp/view/");
-          try {
-            JPEGHandler.runHandler(convert);
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
-      }
-    }
+    for (int i = 0; i < catList.getSize(); i++)
+      for (int j = 0; j < catList.get(i).images.getSize(); j++) 
+        createImage(catList.get(i).images.get(j));
   }
 
   // CREAR IMAGENES
   public static void createImage(String path) {
-    String imageName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+    String imageName = Image.getName(path);
     File tmpFile = new File("tmp/view/" + imageName);
 
     if (!tmpFile.exists()) {
